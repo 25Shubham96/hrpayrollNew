@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrpayroll/DataSource/TrainingApprovalDataSource.dart';
 import 'package:hrpayroll/Network/ApiInterface.dart';
 import 'package:hrpayroll/request_model/TrainingApprovalRequest.dart';
-import 'package:hrpayroll/response_model/RejectionCancellationResponse.dart';
+import 'package:hrpayroll/response_model/RejectionCancellationPostResponse.dart';
 import 'package:hrpayroll/response_model/TrainingApprovalResponse.dart';
 import 'package:hrpayroll/ui/MyDrawer.dart';
 
@@ -38,7 +39,7 @@ class _TrainingApprovalState extends State<TrainingApproval> {
         sequenceNo: "0");
 
     updateResponse =
-        _apiInterface.TrainingApprovalResponseData(trainingApprovalRequest);
+        _apiInterface.trainingApprovalResponseData(trainingApprovalRequest);
   }
 
   @override
@@ -398,7 +399,7 @@ class _TrainingApprovalState extends State<TrainingApproval> {
             onPressed: () async {
               Navigator.pop(context);
               TrainingApprovalResponse trainingApprovalResponse =
-                  await _apiInterface.TrainingApprovalResponseData(
+                  await _apiInterface.trainingApprovalResponseData(
                 TrainingApprovalRequest(
                   action: "3",
                   status: "2",
@@ -445,11 +446,16 @@ class _TrainingApprovalState extends State<TrainingApproval> {
                           entryNo: "0000",
                           sequenceNo: "0");
 
-                  updateResponse = _apiInterface.TrainingApprovalResponseData(
+                  updateResponse = _apiInterface.trainingApprovalResponseData(
                       trainingApprovalRequest);
                 });
               } else {
-                var alert = AlertDialog(
+                Fluttertoast.showToast(
+                  msg: "${trainingApprovalResponse.message}",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                );
+                /*var alert = AlertDialog(
                   content: Text(trainingApprovalResponse.message),
                 );
                 showDialog(
@@ -457,7 +463,7 @@ class _TrainingApprovalState extends State<TrainingApproval> {
                   builder: (context) {
                     return alert;
                   },
-                );
+                );*/
               }
             },
             child: Text("Yes"),
@@ -519,8 +525,8 @@ class _TrainingApprovalState extends State<TrainingApproval> {
                 );
               } else {
                 Navigator.pop(context);
-                RejCanResponse RejCanResp =
-                    await _apiInterface.TrainingRejCanResponseData(
+                RejCanPostResponse RejCanResp =
+                    await _apiInterface.trainingRejCanResponseData(
                   TrainingApprovalRequest(
                     action: "4",
                     status: "3",
@@ -567,11 +573,16 @@ class _TrainingApprovalState extends State<TrainingApproval> {
                             entryNo: "0000",
                             sequenceNo: "0");
 
-                    updateResponse = _apiInterface.TrainingApprovalResponseData(
+                    updateResponse = _apiInterface.trainingApprovalResponseData(
                         trainingApprovalRequest);
                   });
                 } else {
-                  var alert = AlertDialog(
+                  Fluttertoast.showToast(
+                    msg: "${RejCanResp.message}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.CENTER,
+                  );
+                  /*var alert = AlertDialog(
                     content: Text(RejCanResp.message),
                   );
                   showDialog(
@@ -579,7 +590,7 @@ class _TrainingApprovalState extends State<TrainingApproval> {
                     builder: (context) {
                       return alert;
                     },
-                  );
+                  );*/
                 }
                 debugPrint("onApproveYes");
               }

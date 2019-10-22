@@ -5,7 +5,7 @@ import 'package:hrpayroll/Network/ApiInterface.dart';
 import 'package:hrpayroll/request_model/LeaveApplicationRequest.dart';
 import 'package:hrpayroll/request_model/LeaveApprovalRequest.dart';
 import 'package:hrpayroll/response_model/LeaveApplicationResponse.dart';
-import 'package:hrpayroll/response_model/RejectionCancellationResponse.dart';
+import 'package:hrpayroll/response_model/RejectionCancellationPostResponse.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -42,14 +42,14 @@ class _LeaveApplicationState extends State<LeaveApplication> {
   static TextEditingController totDaysController = TextEditingController();
   static TextEditingController leaveReasonController = TextEditingController();
   static TextEditingController contactDetailsController =
-      TextEditingController();
+  TextEditingController();
   static TextEditingController workingDayController = TextEditingController();
   static TextEditingController apprDateTimeController = TextEditingController();
   static TextEditingController rejectionCommentController =
-      TextEditingController();
+  TextEditingController();
   static TextEditingController applDateController = TextEditingController();
   static TextEditingController cancelCommentController =
-      TextEditingController();
+  TextEditingController();
 
   Future<LeaveApplicationResponse> updateTableResponse;
   ApiInterface _apiInterface1 = ApiInterface();
@@ -58,7 +58,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
 
   static List<LeaveApplicationModel> data = List();
   LeaveApplicationDataSource _leaveApplicationDataSource =
-      LeaveApplicationDataSource(data);
+  LeaveApplicationDataSource(data);
 
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
 
@@ -81,7 +81,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
     );
     setState(() {
       updateTableResponse =
-          _apiInterface1.LeaveApplicationResponseData(leaveApplicationRequest);
+          _apiInterface1.leaveApplicationResponseData(leaveApplicationRequest);
     });
 
     getSharedPrefs();
@@ -563,54 +563,60 @@ class _LeaveApplicationState extends State<LeaveApplication> {
             } else {
               Navigator.pop(context);
               LeaveApplicationResponse leaveApplicationResponse =
-                  await _apiInterface2.LeaveApplicationResponseData(
-                      LeaveApplicationRequest(
-                action: 2,
-                employeeNo: selectedEmp,
-                employeeName: empNameController.text,
-                leaveCode: selectedLeaveCode,
-                leaveDescription: leaveDescripController.text,
-                leaveDuration: leaveDuration.indexOf(selectedLeaveDuration),
-                fromDate: fromDateController.text,
-                toDate: toDateController.text,
-                noDays: double.parse(totDaysController.text),
-                reasonLeave: leaveReasonController.text,
-                status: statusList.indexOf(selectedStatus),
-                contactDetail: contactDetailsController.text,
-                specifyWorkDay: workingDayController.text,
-                cancelConfirm: cancellationConfirm,
-                applicationDate: applDateController.text,
-              ));
+              await _apiInterface2.leaveApplicationResponseData(
+                  LeaveApplicationRequest(
+                    action: 2,
+                    employeeNo: selectedEmp,
+                    employeeName: empNameController.text,
+                    leaveCode: selectedLeaveCode,
+                    leaveDescription: leaveDescripController.text,
+                    leaveDuration: leaveDuration.indexOf(selectedLeaveDuration),
+                    fromDate: fromDateController.text,
+                    toDate: toDateController.text,
+                    noDays: double.parse(totDaysController.text),
+                    reasonLeave: leaveReasonController.text,
+                    status: statusList.indexOf(selectedStatus),
+                    contactDetail: contactDetailsController.text,
+                    specifyWorkDay: workingDayController.text,
+                    cancelConfirm: cancellationConfirm,
+                    applicationDate: applDateController.text,
+                  ));
 
               if (leaveApplicationResponse.status) {
                 LeaveApplicationRequest leaveApplicationRequest =
-                    LeaveApplicationRequest(
+                LeaveApplicationRequest(
                   action: 1,
                 );
                 setState(() {
                   updateTableResponse =
-                      _apiInterface1.LeaveApplicationResponseData(
+                      _apiInterface1.leaveApplicationResponseData(
                           leaveApplicationRequest);
                 });
               }
 
-              var alert =
-                  AlertDialog(content: Text(leaveApplicationResponse.message));
+              Fluttertoast.showToast(
+                msg: "${leaveApplicationResponse.message}",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.CENTER,
+              );
+
+              /*var alert =
+              AlertDialog(content: Text(leaveApplicationResponse.message));
               showDialog(
                 context: context,
                 builder: (context) {
                   return alert;
                 },
-              );
+              );*/
             }
           },
-          child: Text("Yes"),
+          child: Text("Submit"),
         ),
         FlatButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text("No"),
+          child: Text("Cancel"),
         ),
       ],
     );
@@ -627,7 +633,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
     editClicked = true;
 
     var documentNo =
-        LeaveApplicationDataSource.selectedRowData.documentNo.toString();
+    LeaveApplicationDataSource.selectedRowData.documentNo.toString();
 
     if (_leaveApplicationDataSource.rowSelect) {
       if (LeaveApplicationDataSource.selectedRowData.status == statusList[0] ||
@@ -637,7 +643,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
           textFieldEnableStatus = false;
           Fluttertoast.showToast(
             msg:
-                "document is ${LeaveApplicationDataSource.selectedRowData.status} cannot be edited",
+            "document is ${LeaveApplicationDataSource.selectedRowData.status} cannot be edited",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
           );
@@ -669,85 +675,97 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                     editClicked = false;
                   });
                   if (selectedStatus == statusList[4]) {
-                    RejCanResponse rejCanResponse =
-                        await _apiInterface3.LeaveRejCanResponseData(
-                            LeaveApprovalRequest(
-                      action: "7",
-                      documentType: "1",
-                      sequenceNo: "0",
-                      senderId: selectedEmp,
-                      status: "4",
-                      fromDate: fromDateController.text,
-                      cancellationComment: cancelCommentController.text,
-                    ));
+                    RejCanPostResponse rejCanResponse =
+                    await _apiInterface3.leaveRejCanResponseData(
+                        LeaveApprovalRequest(
+                          action: "7",
+                          documentType: "1",
+                          sequenceNo: "0",
+                          senderId: selectedEmp,
+                          status: "4",
+                          fromDate: fromDateController.text,
+                          cancellationComment: cancelCommentController.text,
+                        ));
 
                     if (rejCanResponse.status) {
                       LeaveApplicationRequest leaveApplicationRequest =
-                          LeaveApplicationRequest(
+                      LeaveApplicationRequest(
                         action: 1,
                       );
                       setState(() {
                         updateTableResponse =
-                            _apiInterface1.LeaveApplicationResponseData(
+                            _apiInterface1.leaveApplicationResponseData(
                                 leaveApplicationRequest);
                       });
                     }
 
-                    var alert =
-                        AlertDialog(content: Text(rejCanResponse.message));
+                    Fluttertoast.showToast(
+                      msg: "${rejCanResponse.message}",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                    );
+
+                    /*var alert =
+                    AlertDialog(content: Text(rejCanResponse.message));
                     showDialog(
                       context: context,
                       builder: (context) {
                         return alert;
                       },
-                    );
+                    );*/
                   } else {
                     LeaveApplicationResponse leaveApplicationResponse =
-                        await _apiInterface2.LeaveApplicationResponseData(
-                            LeaveApplicationRequest(
-                      action: 3,
-                      employeeNo: selectedEmp,
-                      employeeName: empNameController.text,
-                      leaveCode: selectedLeaveCode,
-                      leaveDescription: leaveDescripController.text,
-                      leaveDuration:
+                    await _apiInterface2.leaveApplicationResponseData(
+                        LeaveApplicationRequest(
+                          action: 3,
+                          employeeNo: selectedEmp,
+                          employeeName: empNameController.text,
+                          leaveCode: selectedLeaveCode,
+                          leaveDescription: leaveDescripController.text,
+                          leaveDuration:
                           leaveDuration.indexOf(selectedLeaveDuration),
-                      fromDate: fromDateController.text,
-                      toDate: toDateController.text,
-                      noDays: double.parse(totDaysController.text),
-                      reasonLeave: leaveReasonController.text,
-                      status: statusList.indexOf(selectedStatus),
-                      contactDetail: contactDetailsController.text,
-                      specifyWorkDay: workingDayController.text,
-                      cancelConfirm: cancellationConfirm,
-                      applicationDate: applDateController.text,
-                      documentNo: documentNo,
-                    ));
+                          fromDate: fromDateController.text,
+                          toDate: toDateController.text,
+                          noDays: double.parse(totDaysController.text),
+                          reasonLeave: leaveReasonController.text,
+                          status: statusList.indexOf(selectedStatus),
+                          contactDetail: contactDetailsController.text,
+                          specifyWorkDay: workingDayController.text,
+                          cancelConfirm: cancellationConfirm,
+                          applicationDate: applDateController.text,
+                          documentNo: documentNo,
+                        ));
 
                     if (leaveApplicationResponse.status) {
                       LeaveApplicationRequest leaveApplicationRequest =
-                          LeaveApplicationRequest(
+                      LeaveApplicationRequest(
                         action: 1,
                       );
                       setState(() {
                         updateTableResponse =
-                            _apiInterface1.LeaveApplicationResponseData(
+                            _apiInterface1.leaveApplicationResponseData(
                                 leaveApplicationRequest);
                       });
                     }
 
-                    var alert = AlertDialog(
+                    Fluttertoast.showToast(
+                      msg: "${leaveApplicationResponse.message}",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                    );
+
+                    /*var alert = AlertDialog(
                         content: Text(leaveApplicationResponse.message));
                     showDialog(
                       context: context,
                       builder: (context) {
                         return alert;
                       },
-                    );
+                    );*/
                   }
                 }
               },
-              child: Text("Yes"),
+              child: Text("Update"),
             ),
             FlatButton(
               onPressed: () {
@@ -756,7 +774,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                   editClicked = false;
                 });
               },
-              child: Text("No"),
+              child: Text("Cancel"),
             ),
           ],
         );
@@ -767,6 +785,9 @@ class _LeaveApplicationState extends State<LeaveApplication> {
               return alert;
             });
       } else {
+        setState(() {
+          editClicked = false;
+        });
         var alert = AlertDialog(
           content: Text(
               "document is ${LeaveApplicationDataSource.selectedRowData.status} cannot be edited"),
@@ -804,7 +825,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
 
   void onRemovePress(BuildContext context) {
     var documentNo =
-        LeaveApplicationDataSource.selectedRowData.documentNo.toString();
+    LeaveApplicationDataSource.selectedRowData.documentNo.toString();
     if (_leaveApplicationDataSource.rowSelect) {
       if (LeaveApplicationDataSource.selectedRowData.status == statusList[0] ||
           LeaveApplicationDataSource.selectedRowData.status == statusList[1]) {
@@ -815,32 +836,37 @@ class _LeaveApplicationState extends State<LeaveApplication> {
               onPressed: () async {
                 Navigator.pop(context);
                 LeaveApplicationResponse leaveApplicationResponse =
-                    await _apiInterface2.LeaveApplicationResponseData(
-                        LeaveApplicationRequest(
-                  action: 4,
-                  documentNo: documentNo,
-                ));
+                await _apiInterface2.leaveApplicationResponseData(
+                    LeaveApplicationRequest(
+                      action: 4,
+                      documentNo: documentNo,
+                    ));
 
                 if (leaveApplicationResponse.status) {
                   LeaveApplicationRequest leaveApplicationRequest =
-                      LeaveApplicationRequest(
+                  LeaveApplicationRequest(
                     action: 1,
                   );
                   setState(() {
                     updateTableResponse =
-                        _apiInterface1.LeaveApplicationResponseData(
+                        _apiInterface1.leaveApplicationResponseData(
                             leaveApplicationRequest);
                   });
                 }
 
-                var alert = AlertDialog(
+                Fluttertoast.showToast(
+                  msg: "${leaveApplicationResponse.message}",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                );
+                /*var alert = AlertDialog(
                     content: Text(leaveApplicationResponse.message));
                 showDialog(
                   context: context,
                   builder: (context) {
                     return alert;
                   },
-                );
+                );*/
               },
               child: Text("Yes"),
             ),
@@ -966,74 +992,74 @@ class _DialogContentState extends State<DialogContent> {
           ? LeaveApplicationDataSource.selectedRowData.employeeNo
           : _LeaveApplicationState.empNo[0];
       _LeaveApplicationState.empNameController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.employeeName
-              : _LeaveApplicationState.empName[_LeaveApplicationState.empNo
-                  .indexOf(_LeaveApplicationState.selectedEmp)];
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.employeeName
+          : _LeaveApplicationState.empName[_LeaveApplicationState.empNo
+          .indexOf(_LeaveApplicationState.selectedEmp)];
 
       _LeaveApplicationState.selectedLeaveCode =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.leaveCode
-              : _LeaveApplicationState.leaveCode[0];
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.leaveCode
+          : _LeaveApplicationState.leaveCode[0];
       _LeaveApplicationState.leaveDescripController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.leaveDescription
-              : _LeaveApplicationState.leaveDescription[_LeaveApplicationState
-                  .leaveCode
-                  .indexOf(_LeaveApplicationState.selectedLeaveCode)];
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.leaveDescription
+          : _LeaveApplicationState.leaveDescription[_LeaveApplicationState
+          .leaveCode
+          .indexOf(_LeaveApplicationState.selectedLeaveCode)];
 
       _LeaveApplicationState.selectedLeaveDuration =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.leaveDuration
-              : _leaveApplicationState.leaveDuration[0];
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.leaveDuration
+          : _leaveApplicationState.leaveDuration[0];
 
       _LeaveApplicationState.fromDateController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.fromDate
-              : "";
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.fromDate
+          : "";
       _LeaveApplicationState.toDateController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.toDate
-              : "";
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.toDate
+          : "";
       _LeaveApplicationState.totDaysController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.noOfDays.toString()
-              : "";
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.noOfDays.toString()
+          : "";
       _LeaveApplicationState.leaveReasonController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.reasonForLeave
-              : "";
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.reasonForLeave
+          : "";
       _LeaveApplicationState.contactDetailsController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource
-                  .selectedRowData.contactDetailsLeavePeriod
-                  .toString()
-              : "";
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource
+          .selectedRowData.contactDetailsLeavePeriod
+          .toString()
+          : "";
       _LeaveApplicationState.workingDayController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.specifyWorkingDay
-              : "";
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.specifyWorkingDay
+          : "";
       _LeaveApplicationState.apprDateTimeController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource
-                  .selectedRowData.sendForApprovalDateTime
-              : "";
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource
+          .selectedRowData.sendForApprovalDateTime
+          : "";
 
       _LeaveApplicationState.selectedStatus = _LeaveApplicationState.editClicked
           ? LeaveApplicationDataSource.selectedRowData.status
           : _leaveApplicationState.statusList[0];
 
       _LeaveApplicationState.cancellationConfirm = _LeaveApplicationState
-              .editClicked
+          .editClicked
           ? (LeaveApplicationDataSource.selectedRowData.cancellationConfirmed ==
-                  "1"
-              ? true
-              : false)
+          "1"
+          ? true
+          : false)
           : false;
       _LeaveApplicationState.applDateController.text =
-          _LeaveApplicationState.editClicked
-              ? LeaveApplicationDataSource.selectedRowData.applicationDate
-              : formatter.format(applicationDate);
+      _LeaveApplicationState.editClicked
+          ? LeaveApplicationDataSource.selectedRowData.applicationDate
+          : formatter.format(applicationDate);
     });
   }
 
@@ -1051,7 +1077,7 @@ class _DialogContentState extends State<DialogContent> {
                       contentPadding: EdgeInsets.all(2),
                       content: TextField(
                         controller:
-                            _LeaveApplicationState.cancelCommentController,
+                        _LeaveApplicationState.cancelCommentController,
                         decoration: InputDecoration(
                             labelText: "enter the cancellation comment"),
                       ),
@@ -1063,7 +1089,7 @@ class _DialogContentState extends State<DialogContent> {
                               Navigator.pop(context);
                               setState(() {
                                 _LeaveApplicationState.selectedStatus =
-                                    _leaveApplicationState.statusList[4];
+                                _leaveApplicationState.statusList[4];
                               });
                             } else {
                               Fluttertoast.showToast(
@@ -1102,14 +1128,14 @@ class _DialogContentState extends State<DialogContent> {
                   onPressed: () {
                     var alert = AlertDialog(
                       content:
-                          Text("Are you sure you want to send for approval ?"),
+                      Text("Are you sure you want to send for approval ?"),
                       actions: <Widget>[
                         FlatButton(
                           onPressed: () {
                             Navigator.pop(context);
                             setState(() {
                               _LeaveApplicationState.selectedStatus =
-                                  _leaveApplicationState.statusList[1];
+                              _leaveApplicationState.statusList[1];
                             });
                           },
                           child: Text("Yes"),
@@ -1163,9 +1189,9 @@ class _DialogContentState extends State<DialogContent> {
                     setState(() {
                       _LeaveApplicationState.selectedEmp = newValue;
                       _LeaveApplicationState.empNameController.text =
-                          _LeaveApplicationState.empName[_LeaveApplicationState
-                              .empNo
-                              .indexOf(_LeaveApplicationState.selectedEmp)];
+                      _LeaveApplicationState.empName[_LeaveApplicationState
+                          .empNo
+                          .indexOf(_LeaveApplicationState.selectedEmp)];
                     });
                   },
                 ),
@@ -1203,9 +1229,9 @@ class _DialogContentState extends State<DialogContent> {
                   setState(() {
                     _LeaveApplicationState.selectedLeaveCode = newValue;
                     _LeaveApplicationState.leaveDescripController.text =
-                        _LeaveApplicationState.leaveDescription[
-                            _LeaveApplicationState.leaveCode.indexOf(
-                                _LeaveApplicationState.selectedLeaveCode)];
+                    _LeaveApplicationState.leaveDescription[
+                    _LeaveApplicationState.leaveCode.indexOf(
+                        _LeaveApplicationState.selectedLeaveCode)];
                   });
                 },
               ),

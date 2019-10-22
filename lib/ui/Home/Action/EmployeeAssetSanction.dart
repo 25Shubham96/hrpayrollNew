@@ -31,7 +31,7 @@ class EmployeeAssetSanction extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.EmployeeAssetSanctionResponseData(
+              future: _apiInterface.employeeAssetSanctionResponseData(
                   actionRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<ActionResponse> snapshot) {

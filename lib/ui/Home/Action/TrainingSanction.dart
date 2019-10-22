@@ -31,7 +31,7 @@ class TrainingSanction extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.TrainingSanctionResponseData(actionRequest),
+              future: _apiInterface.trainingSanctionResponseData(actionRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<ActionResponse> snapshot) {
                 debugPrint(snapshot.hasData.toString());

@@ -31,7 +31,7 @@ class KRA extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.KRAResponseData(navigateRequest),
+              future: _apiInterface.kraResponseData(navigateRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<NavigateResponseKRA> snapshot) {
                 debugPrint(snapshot.hasData.toString());

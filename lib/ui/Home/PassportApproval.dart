@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrpayroll/DataSource/PassportApprovalDataSource.dart';
 import 'package:hrpayroll/Network/ApiInterface.dart';
 import 'package:hrpayroll/request_model/PassportApprovalRequest.dart';
 import 'package:hrpayroll/response_model/PassportApprovalResponse.dart';
-import 'package:hrpayroll/response_model/RejectionCancellationResponse.dart';
+import 'package:hrpayroll/response_model/RejectionCancellationPostResponse.dart';
 import 'package:hrpayroll/ui/MyDrawer.dart';
 
 class PassportApproval extends StatefulWidget {
@@ -38,7 +39,7 @@ class _PassportApprovalState extends State<PassportApproval> {
         sequenceNo: "0");
 
     updateResponse =
-        _apiInterface.PassportApprovalResponseData(passportApprovalRequest);
+        _apiInterface.passportApprovalResponseData(passportApprovalRequest);
   }
 
   @override
@@ -398,7 +399,7 @@ class _PassportApprovalState extends State<PassportApproval> {
             onPressed: () async {
               Navigator.pop(context);
               PassportApprovalResponse passportApprovalResponse =
-                  await _apiInterface.PassportApprovalResponseData(
+                  await _apiInterface.passportApprovalResponseData(
                 PassportApprovalRequest(
                   action: "3",
                   status: "2",
@@ -445,11 +446,16 @@ class _PassportApprovalState extends State<PassportApproval> {
                           entryNo: "0000",
                           sequenceNo: "0");
 
-                  updateResponse = _apiInterface.PassportApprovalResponseData(
+                  updateResponse = _apiInterface.passportApprovalResponseData(
                       passportApprovalRequest);
                 });
               } else {
-                var alert = AlertDialog(
+                Fluttertoast.showToast(
+                  msg: "${passportApprovalResponse.message}",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                );
+                /*var alert = AlertDialog(
                   content: Text(passportApprovalResponse.message),
                 );
                 showDialog(
@@ -457,7 +463,7 @@ class _PassportApprovalState extends State<PassportApproval> {
                   builder: (context) {
                     return alert;
                   },
-                );
+                );*/
               }
             },
             child: Text("Yes"),
@@ -519,8 +525,8 @@ class _PassportApprovalState extends State<PassportApproval> {
                 );
               } else {
                 Navigator.pop(context);
-                RejCanResponse RejCanResp =
-                    await _apiInterface.PassportRejCanResponseData(
+                RejCanPostResponse RejCanResp =
+                    await _apiInterface.passportRejCanResponseData(
                   PassportApprovalRequest(
                     action: "4",
                     status: "3",
@@ -567,11 +573,16 @@ class _PassportApprovalState extends State<PassportApproval> {
                             entryNo: "0000",
                             sequenceNo: "0");
 
-                    updateResponse = _apiInterface.PassportApprovalResponseData(
+                    updateResponse = _apiInterface.passportApprovalResponseData(
                         passportApprovalRequest);
                   });
                 } else {
-                  var alert = AlertDialog(
+                  Fluttertoast.showToast(
+                    msg: "${RejCanResp.message}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.CENTER,
+                  );
+                  /*var alert = AlertDialog(
                     content: Text(RejCanResp.message),
                   );
                   showDialog(
@@ -579,12 +590,12 @@ class _PassportApprovalState extends State<PassportApproval> {
                     builder: (context) {
                       return alert;
                     },
-                  );
+                  );*/
                 }
                 debugPrint("onApproveYes");
               }
             },
-            child: Text("Done"),
+            child: Text("Submit"),
           ),
           FlatButton(
             onPressed: () {

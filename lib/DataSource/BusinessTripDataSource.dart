@@ -21,7 +21,7 @@ class BusinessTripDataSource extends DataTableSource {
 
   @override
   DataRow getRow(int index) {
-    BusinessTripModel businessTripModel = data[index];
+      BusinessTripModel businessTripModel = data[index];
     return DataRow.byIndex(
       index: index,
       selected: businessTripModel.selected,

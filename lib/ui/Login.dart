@@ -34,24 +34,26 @@ class _LoginState extends State<Login> {
       sharedPreferences.setString(Util.userName, userName);
     });
 
-    log("SFsessionId: ${sessionId}");
-    log("SFuseName: ${userName}");
+    debugPrint("SFsessionId: ${sessionId}");
+    debugPrint("SFuseName: ${userName}");
+
+    Navigator.pop(context);
+    Navigator.push(context,
+        new MaterialPageRoute(builder: (BuildContext context) {
+          return new Dashboard();
+        }));
   }
 
   void getLoginResponse(BuildContext context, LoginRequest req) async {
     _myData = await _apiInterface.checkLogin(req);
 
     if (_myData.status) {
-      log("sessionId: ${_myData.data[0].sessionId.toString()}");
-      log("useName: ${_myData.data[0].userId.toString()}");
+      debugPrint("sessionId: ${_myData.data[0].sessionId.toString()}");
+      debugPrint("useName: ${_myData.data[0].userId.toString()}");
 
       UpdateSharedPrefs(_myData.data[0].sessionId.toString(),
           _myData.data[0].userId.toString());
 
-      Navigator.push(context,
-          new MaterialPageRoute(builder: (BuildContext context) {
-        return new Dashboard();
-      }));
     } else {
       var alert = new AlertDialog(
         title: new Text("Caution!"),
@@ -158,6 +160,21 @@ class _LoginState extends State<Login> {
                             );
 
                             getLoginResponse(context, req);
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Row(
+                                    children: <Widget>[
+                                      CircularProgressIndicator(),
+                                      Padding(padding: EdgeInsets.only(left: 10)),
+                                      Text("Logging in please wait...")
+                                    ],
+                                  ),
+                                );
+                              }
+                            );
                           }
                         },
                         child: new Text(

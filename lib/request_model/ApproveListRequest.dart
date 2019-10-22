@@ -1,24 +1,24 @@
 import 'dart:convert';
 
-LeaveApproveListRequest leaveApproveListRequestFromJson(String str) =>
-    LeaveApproveListRequest.fromJson(json.decode(str));
+ApproveListRequest leaveApproveListRequestFromJson(String str) =>
+    ApproveListRequest.fromJson(json.decode(str));
 
-String leaveApproveListRequestToJson(LeaveApproveListRequest data) =>
+String leaveApproveListRequestToJson(ApproveListRequest data) =>
     json.encode(data.toJson());
 
-class LeaveApproveListRequest {
+class ApproveListRequest {
   int action;
   String senderId;
   int status;
 
-  LeaveApproveListRequest({
+  ApproveListRequest({
     this.action,
     this.senderId,
     this.status,
   });
 
-  factory LeaveApproveListRequest.fromJson(Map<String, dynamic> json) =>
-      LeaveApproveListRequest(
+  factory ApproveListRequest.fromJson(Map<String, dynamic> json) =>
+      ApproveListRequest(
         action: json["action"],
         senderId: json["senderId"],
         status: json["status"],

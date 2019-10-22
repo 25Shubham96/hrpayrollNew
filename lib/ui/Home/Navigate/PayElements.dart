@@ -31,7 +31,7 @@ class PayElements extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.PayElementResponseData(navigateRequest),
+              future: _apiInterface.payElementResponseData(navigateRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<NavigateResponsePayElements> snapshot) {
                 debugPrint(snapshot.hasData.toString());

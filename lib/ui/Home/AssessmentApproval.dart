@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrpayroll/DataSource/AssessmentApprovalDataSource.dart';
 import 'package:hrpayroll/Network/ApiInterface.dart';
 import 'package:hrpayroll/request_model/AssessmentApprovalRequest.dart';
 import 'package:hrpayroll/response_model/AssessmentApprovalResponse.dart';
-import 'package:hrpayroll/response_model/RejectionCancellationResponse.dart';
+import 'package:hrpayroll/response_model/RejectionCancellationPostResponse.dart';
 import 'package:hrpayroll/ui/MyDrawer.dart';
 
 class AssessmentApproval extends StatefulWidget {
@@ -36,7 +37,7 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
             action: "1", empApproverId: MyDrawer.EmpNo, status: "1");
 
     updateResponse =
-        _apiInterface.AssessmentApprovalResponseData(assessmentApprovalRequest);
+        _apiInterface.assessmentApprovalResponseData(assessmentApprovalRequest);
   }
 
   @override
@@ -379,7 +380,7 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
             onPressed: () async {
               Navigator.pop(context);
               AssessmentApprovalResponse assessmentApprovalResponse =
-                  await _apiInterface.AssessmentApprovalResponseData(
+                  await _apiInterface.assessmentApprovalResponseData(
                       AssessmentApprovalRequest(
                 action: "3",
                 status: "2",
@@ -410,7 +411,12 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
               ));
 
               if (assessmentApprovalResponse.status) {
-                var alert = AlertDialog(
+                Fluttertoast.showToast(
+                  msg: "${assessmentApprovalResponse.message}",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                );
+                /*var alert = AlertDialog(
                   content: Text(assessmentApprovalResponse.message),
                 );
                 showDialog(
@@ -418,7 +424,7 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
                   builder: (context) {
                     return alert;
                   },
-                );
+                );*/
                 setState(() {
                   AssessmentApprovalRequest assessmentApprovalRequest =
                       AssessmentApprovalRequest(
@@ -426,11 +432,16 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
                           empApproverId: MyDrawer.EmpNo,
                           status: "1");
 
-                  updateResponse = _apiInterface.AssessmentApprovalResponseData(
+                  updateResponse = _apiInterface.assessmentApprovalResponseData(
                       assessmentApprovalRequest);
                 });
               } else {
-                var alert = AlertDialog(
+                Fluttertoast.showToast(
+                  msg: "${assessmentApprovalResponse.message}",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                );
+                /*var alert = AlertDialog(
                   content: Text(assessmentApprovalResponse.message),
                 );
                 showDialog(
@@ -438,7 +449,7 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
                   builder: (context) {
                     return alert;
                   },
-                );
+                );*/
               }
             },
             child: Text("Yes"),
@@ -500,8 +511,8 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
                 );
               } else {
                 Navigator.pop(context);
-                RejCanResponse leaveRejCanResp =
-                    await _apiInterface.AssessmentRejCanResponseData(
+                RejCanPostResponse leaveRejCanResp =
+                    await _apiInterface.assessmentRejCanResponseData(
                         AssessmentApprovalRequest(
                   action: "4",
                   status: "3",
@@ -532,7 +543,12 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
                 ));
 
                 if (leaveRejCanResp.status) {
-                  var alert = AlertDialog(
+                  Fluttertoast.showToast(
+                    msg: "${leaveRejCanResp.message}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.CENTER,
+                  );
+                  /*var alert = AlertDialog(
                     content: Text(leaveRejCanResp.message),
                   );
                   showDialog(
@@ -540,7 +556,7 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
                     builder: (context) {
                       return alert;
                     },
-                  );
+                  );*/
                   setState(() {
                     AssessmentApprovalRequest assessmentApprovalRequest =
                         AssessmentApprovalRequest(
@@ -549,11 +565,16 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
                             status: "1");
 
                     updateResponse =
-                        _apiInterface.AssessmentApprovalResponseData(
+                        _apiInterface.assessmentApprovalResponseData(
                             assessmentApprovalRequest);
                   });
                 } else {
-                  var alert = AlertDialog(
+                  Fluttertoast.showToast(
+                    msg: "${leaveRejCanResp.message}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.CENTER,
+                  );
+                  /*var alert = AlertDialog(
                     content: Text(leaveRejCanResp.message),
                   );
                   showDialog(
@@ -561,12 +582,12 @@ class _AssessmentApprovalState extends State<AssessmentApproval> {
                     builder: (context) {
                       return alert;
                     },
-                  );
+                  );*/
                 }
                 debugPrint("onApproveYes");
               }
             },
-            child: Text("Done"),
+            child: Text("Submit"),
           ),
           FlatButton(
             onPressed: () {

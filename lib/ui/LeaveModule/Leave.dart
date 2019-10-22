@@ -3,7 +3,7 @@ import 'package:hrpayroll/ui/LeaveModule/BusinessTrip.dart';
 import 'package:hrpayroll/ui/LeaveModule/LeaveMaster.dart';
 import 'package:hrpayroll/ui/LeaveModule/OutOfOffice.dart';
 
-import '../TabbedAppBar.dart';
+import '../MyDrawer.dart';
 import 'CompOff.dart';
 import 'LeaveApplication.dart';
 import 'LeaveApproveList.dart';
@@ -14,37 +14,51 @@ class Leave extends StatefulWidget {
 }
 
 class _LeaveState extends State<Leave> {
-  List<Tab> tabs = List<Tab>();
-  List<Widget> tabContent = List<Widget>();
 
   @override
   Widget build(BuildContext context) {
-    tabs.add(new Tab(
-      text: "Leave Master",
-    ));
-    tabs.add(new Tab(
-      text: "Leave Application",
-    ));
-    tabs.add(new Tab(
-      text: "Compansatory Off",
-    ));
-    tabs.add(new Tab(
-      text: "Out of Office",
-    ));
-    tabs.add(new Tab(
-      text: "Business Trip",
-    ));
-    tabs.add(new Tab(
-      text: "Approve List",
-    ));
 
-    tabContent.add(LeaveMaster());
-    tabContent.add(LeaveApplication());
-    tabContent.add(CompOff());
-    tabContent.add(OutOfOffice());
-    tabContent.add(BusinessTrip());
-    tabContent.add(LeaveApproveList());
-
-    return TabAppBar.getTabbedAppBar("Leave Request", tabs, tabContent);
+    return DefaultTabController(
+      length: 6,
+      child: new Scaffold(
+        drawer: MyDrawer(),
+        appBar: AppBar(
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                text: "Leave Master",
+              ),
+              Tab(
+                text: "Leave Application",
+              ),
+              Tab(
+                text: "Compansatory Off",
+              ),
+              Tab(
+                text: "Out of Office",
+              ),
+              Tab(
+                text: "Business Trip",
+              ),
+              Tab(
+                text: "Approve List",
+              ),
+            ],
+            isScrollable: true,
+          ),
+          title: new Text("Leave Request"),
+          centerTitle: true,
+          backgroundColor: Colors.redAccent,
+        ),
+        body: TabBarView(children: [
+          LeaveMaster(),
+          LeaveApplication(),
+          CompOff(),
+          OutOfOffice(),
+          BusinessTrip(),
+          LeaveApproveList(),
+        ]),
+      ),
+    );
   }
 }

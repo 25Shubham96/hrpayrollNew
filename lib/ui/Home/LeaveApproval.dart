@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrpayroll/DataSource/LeaveApprovalDataSource.dart';
 import 'package:hrpayroll/Network/ApiInterface.dart';
 import 'package:hrpayroll/Network/Utils.dart';
 import 'package:hrpayroll/request_model/LeaveApprovalRequest.dart';
 import 'package:hrpayroll/response_model/LeaveApprovalResponse.dart';
-import 'package:hrpayroll/response_model/RejectionCancellationResponse.dart';
+import 'package:hrpayroll/response_model/RejectionCancellationPostResponse.dart';
 import 'package:hrpayroll/ui/MyDrawer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,7 +48,7 @@ class _LeaveApprovalState extends State<LeaveApproval> {
         action: "1", empApproverId: MyDrawer.EmpNo, status: "1");
 
     updateResponse =
-        _apiInterface.LeaveApprovalResponseData(leaveApprovalRequest);
+        _apiInterface.leaveApprovalResponseData(leaveApprovalRequest);
   }
 
   void getEmployeeNo() async {
@@ -471,7 +472,7 @@ class _LeaveApprovalState extends State<LeaveApproval> {
             onPressed: () async {
               Navigator.pop(context);
               LeaveApprovalResponse leaveApprovalResponse =
-                  await _apiInterface.LeaveApprovalResponseData(
+                  await _apiInterface.leaveApprovalResponseData(
                       LeaveApprovalRequest(
                 action: "3",
                 status: "2",
@@ -498,7 +499,12 @@ class _LeaveApprovalState extends State<LeaveApproval> {
               ));
 
               if (leaveApprovalResponse.status) {
-                var alert = AlertDialog(
+                Fluttertoast.showToast(
+                  msg: "${leaveApprovalResponse.message}",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                );
+                /*var alert = AlertDialog(
                   content: Text(leaveApprovalResponse.message),
                 );
                 showDialog(
@@ -506,7 +512,7 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                   builder: (context) {
                     return alert;
                   },
-                );
+                );*/
                 setState(() {
                   LeaveApprovalRequest leaveApprovalRequest =
                       LeaveApprovalRequest(
@@ -514,11 +520,16 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                           empApproverId: MyDrawer.EmpNo,
                           status: "1");
 
-                  updateResponse = _apiInterface.LeaveApprovalResponseData(
+                  updateResponse = _apiInterface.leaveApprovalResponseData(
                       leaveApprovalRequest);
                 });
               } else {
-                var alert = AlertDialog(
+                Fluttertoast.showToast(
+                  msg: "${leaveApprovalResponse.message}",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                );
+                /*var alert = AlertDialog(
                   content: Text(leaveApprovalResponse.message),
                 );
                 showDialog(
@@ -526,7 +537,7 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                   builder: (context) {
                     return alert;
                   },
-                );
+                );*/
               }
             },
             child: Text("Yes"),
@@ -588,8 +599,8 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                 );
               } else {
                 Navigator.pop(context);
-                RejCanResponse leaveRejCanResp =
-                    await _apiInterface.LeaveRejCanResponseData(
+                RejCanPostResponse leaveRejCanResp =
+                    await _apiInterface.leaveRejCanResponseData(
                         LeaveApprovalRequest(
                   action: "4",
                   status: "3",
@@ -632,11 +643,16 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                             empApproverId: MyDrawer.EmpNo,
                             status: "1");
 
-                    updateResponse = _apiInterface.LeaveApprovalResponseData(
+                    updateResponse = _apiInterface.leaveApprovalResponseData(
                         leaveApprovalRequest);
                   });
                 } else {
-                  var alert = AlertDialog(
+                  Fluttertoast.showToast(
+                    msg: "${leaveRejCanResp.message}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.CENTER,
+                  );
+                  /*var alert = AlertDialog(
                     content: Text(leaveRejCanResp.message),
                   );
                   showDialog(
@@ -644,12 +660,12 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                     builder: (context) {
                       return alert;
                     },
-                  );
+                  );*/
                 }
                 debugPrint("onApproveYes");
               }
             },
-            child: Text("Done"),
+            child: Text("Submit"),
           ),
           FlatButton(
             onPressed: () {

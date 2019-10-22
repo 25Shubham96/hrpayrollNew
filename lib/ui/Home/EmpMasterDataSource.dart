@@ -31,7 +31,6 @@ class EmpMasterDataSource extends DataTableSource {
   DataRow getRow(int index) {
     assert(index >= 0);
     final Employee employee = data[index];
-    // TODO: implement getRow
     return DataRow.byIndex(
       cells: <DataCell>[
         DataCell(Text('${employee.EmpNo}')),
@@ -44,15 +43,12 @@ class EmpMasterDataSource extends DataTableSource {
   }
 
   @override
-  // TODO: implement isRowCountApproximate
   bool get isRowCountApproximate => false;
 
   @override
-  // TODO: implement rowCount
   int get rowCount => data.length;
 
   @override
-  // TODO: implement selectedRowCount
   int get selectedRowCount => 0;
 }
 

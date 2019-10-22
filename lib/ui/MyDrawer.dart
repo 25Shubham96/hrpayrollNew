@@ -3,8 +3,11 @@ import 'package:hrpayroll/Network/Utils.dart';
 import 'package:hrpayroll/ui/Home/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Dashboard.dart';
 import 'EmployeeModule/Employee.dart';
 import 'LeaveModule/Leave.dart';
+import 'PassportModule/Passport.dart';
+import 'TrainingModule/Training.dart';
 
 class MyDrawer extends StatelessWidget {
   static String EmpNo = "";
@@ -32,7 +35,15 @@ class MyDrawer extends StatelessWidget {
           new ListTile(
             title: new Text("Dashboard"),
             leading: new Icon(Icons.home),
-            onTap: () => debugPrint("Dashboard"),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (BuildContext context) {
+                    return Dashboard();
+                  }));
+            },
           ),
           new ListTile(
             title: new Text("Home"),
@@ -65,7 +76,15 @@ class MyDrawer extends StatelessWidget {
           new ListTile(
             title: new Text("Training"),
             leading: new Icon(Icons.work),
-            onTap: () => debugPrint("Training"),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (BuildContext context) {
+                    return Training();
+                  }));
+            },
           ),
           new ListTile(
             title: new Text("Employee Asset"),
@@ -83,7 +102,15 @@ class MyDrawer extends StatelessWidget {
           new ListTile(
             title: new Text("Passport"),
             leading: new Icon(Icons.flight_takeoff),
-            onTap: () => debugPrint("Passport"),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+
+              Navigator.push(context,
+                  new MaterialPageRoute(builder: (BuildContext context) {
+                    return Passport();
+                  }));
+            },
           ),
           new ListTile(
             title: new Text("Info"),

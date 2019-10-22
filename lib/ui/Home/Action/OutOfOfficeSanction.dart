@@ -32,7 +32,7 @@ class OutOfOfficeSanction extends StatelessWidget {
           children: <Widget>[
             FutureBuilder(
               future:
-                  _apiInterface.OutofOfficeSanctionResponseData(actionRequest),
+                  _apiInterface.outofOfficeSanctionResponseData(actionRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<ActionResponse> snapshot) {
                 debugPrint(snapshot.hasData.toString());

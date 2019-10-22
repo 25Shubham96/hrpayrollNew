@@ -31,7 +31,7 @@ class Kins extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.KinsResponseData(navigateRequest),
+              future: _apiInterface.kinsResponseData(navigateRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<NavigateResponseKins> snapshot) {
                 debugPrint(snapshot.hasData.toString());

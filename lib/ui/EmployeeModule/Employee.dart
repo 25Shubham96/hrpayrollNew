@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hrpayroll/ui/Dashboard.dart';
+import 'package:hrpayroll/ui/EmployeeModule/AssetApproveList.dart';
+import 'package:hrpayroll/ui/EmployeeModule/AssetIssue.dart';
+import 'package:hrpayroll/ui/EmployeeModule/IssueReturnLedger.dart';
 
 import '../MyDrawer.dart';
+import 'AssetRequest.dart';
+import 'AssetReturn.dart';
 
 class Employee extends StatefulWidget {
   @override
@@ -36,16 +40,16 @@ class _EmployeeState extends State<Employee> {
             ],
             isScrollable: true,
           ),
-          title: new Text("Home"),
+          title: new Text("Employee Asset"),
           centerTitle: true,
           backgroundColor: Colors.redAccent,
         ),
         body: TabBarView(children: [
-          Dashboard(),
-          Dashboard(),
-          Dashboard(),
-          Dashboard(),
-          Dashboard(),
+          AssetRequest(),
+          AssetIssue(),
+          AssetReturn(),
+          IssueReturnLedger(),
+          AssetApproveList(),
         ]),
       ),
     );

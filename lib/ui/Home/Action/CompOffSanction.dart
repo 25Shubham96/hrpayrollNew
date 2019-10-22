@@ -31,7 +31,7 @@ class CompOffSanction extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.CompOffSanctionResponseData(actionRequest),
+              future: _apiInterface.compOffSanctionResponseData(actionRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<ActionResponse> snapshot) {
                 debugPrint(snapshot.hasData.toString());

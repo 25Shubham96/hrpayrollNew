@@ -32,7 +32,7 @@ class BusinessTripSanction extends StatelessWidget {
           children: <Widget>[
             FutureBuilder(
               future:
-                  _apiInterface.BusinessTripSanctionResponseData(actionRequest),
+                  _apiInterface.businessTripSanctionResponseData(actionRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<ActionResponse> snapshot) {
                 debugPrint(snapshot.hasData.toString());

@@ -31,7 +31,7 @@ class LeaveSanction extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.LeaveSanctionResponseData(actionRequest),
+              future: _apiInterface.leaveSanctionResponseData(actionRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<ActionResponse> snapshot) {
                 debugPrint(snapshot.hasData.toString());

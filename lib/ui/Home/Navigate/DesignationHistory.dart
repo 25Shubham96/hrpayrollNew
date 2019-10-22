@@ -31,7 +31,7 @@ class DesignationHistory extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.DesignationResponseData(navigateRequest),
+              future: _apiInterface.designationResponseData(navigateRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<NavigateResponseDesigLocHistory> snapshot) {
                 debugPrint(snapshot.hasData.toString());

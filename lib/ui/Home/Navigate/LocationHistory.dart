@@ -31,7 +31,7 @@ class LocationHistory extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.LocationResponseData(navigateRequest),
+              future: _apiInterface.locationResponseData(navigateRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<NavigateResponseDesigLocHistory> snapshot) {
                 debugPrint(snapshot.hasData.toString());

@@ -38,7 +38,7 @@ class _LeaveMasterState extends State<LeaveMaster> {
               ),
             ),
             FutureBuilder(
-              future: _apiInterface.LeaveMasterResponseData(leaveMasterRequest),
+              future: _apiInterface.leaveMasterResponseData(leaveMasterRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<LeaveMasterResponse> snapshot) {
                 if (snapshot.hasData) {
@@ -150,18 +150,19 @@ class _LeaveMasterState extends State<LeaveMaster> {
                   return Column(
                     children: <Widget>[
                       Center(
-                          child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
-                          ),
-                          CircularProgressIndicator(),
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                          ),
-                          Text("Loading please wait..."),
-                        ],
-                      )),
+                        child: Row(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(15, 5, 5, 5),
+                            ),
+                            CircularProgressIndicator(),
+                            Padding(
+                              padding: EdgeInsets.all(5),
+                            ),
+                            Text("Loading please wait..."),
+                          ],
+                        ),
+                      ),
                       PaginatedDataTable(
                         columnSpacing: 15,
                         horizontalMargin: 15,

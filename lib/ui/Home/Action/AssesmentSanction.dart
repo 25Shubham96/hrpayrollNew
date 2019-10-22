@@ -32,7 +32,7 @@ class AssessmentSanction extends StatelessWidget {
           children: <Widget>[
             FutureBuilder(
               future:
-                  _apiInterface.AssessmentSanctionResponseData(actionRequest),
+                  _apiInterface.assessmentSanctionResponseData(actionRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<ActionResponse> snapshot) {
                 debugPrint(snapshot.hasData.toString());

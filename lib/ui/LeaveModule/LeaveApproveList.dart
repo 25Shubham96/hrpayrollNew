@@ -4,9 +4,9 @@ import 'package:hrpayroll/DataSource/LeaveApproveListDataSource.dart';
 import 'package:hrpayroll/Network/ApiInterface.dart';
 import 'package:hrpayroll/Network/Utils.dart';
 import 'package:hrpayroll/request_model/LeaveApprovalRequest.dart';
-import 'package:hrpayroll/request_model/LeaveApproveListRequest.dart';
+import 'package:hrpayroll/request_model/ApproveListRequest.dart';
 import 'package:hrpayroll/response_model/LeaveApproveListResponse.dart';
-import 'package:hrpayroll/response_model/RejectionCancellationResponse.dart';
+import 'package:hrpayroll/response_model/RejectionCancellationPostResponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LeaveApproveList extends StatefulWidget {
@@ -25,7 +25,7 @@ class _LeaveApproveListState extends State<LeaveApproveList> {
 
   int _rowsPerPage = PaginatedDataTable.defaultRowsPerPage;
 
-  static String EmpNo = "";
+  static String empNo = "";
 
   var selectedStatus = "";
   final List<String> statusList = ["", "Approved", "Rejected", "Cancelled"];
@@ -36,7 +36,7 @@ class _LeaveApproveListState extends State<LeaveApproveList> {
 
   void getSharedPrefs() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    EmpNo = sharedPreferences.getString(Util.userName);
+    empNo = sharedPreferences.getString(Util.userName);
   }
 
   @override
@@ -48,9 +48,9 @@ class _LeaveApproveListState extends State<LeaveApproveList> {
 
     setState(() {
       updateTableResponse =
-          _apiInterface1.LeaveApproveListResponseData(LeaveApproveListRequest(
-        action: 1,
-        senderId: EmpNo,
+          _apiInterface1.leaveApproveListResponseData(ApproveListRequest(
+        action: 2,
+        senderId: empNo,
         status: 5,
       ));
     });
@@ -108,13 +108,20 @@ class _LeaveApproveListState extends State<LeaveApproveList> {
                               }
                               if (statusList.indexOf(selectedStatus) != 0) {
                                 updateTableResponse =
-                                    _apiInterface1.LeaveApproveListResponseData(
-                                        LeaveApproveListRequest(
-                                  action: 1,
-                                  senderId: EmpNo,
+                                    _apiInterface1.leaveApproveListResponseData(
+                                        ApproveListRequest(
+                                  action: 2,
+                                  senderId: empNo,
                                   status:
                                       statusList.indexOf(selectedStatus) + 1,
                                 ));
+                              } else {
+                                updateTableResponse =
+                                    _apiInterface1.leaveApproveListResponseData(ApproveListRequest(
+                                      action: 2,
+                                      senderId: empNo,
+                                      status: 5,
+                                    ));
                               }
                             });
                           },
@@ -148,9 +155,9 @@ class _LeaveApproveListState extends State<LeaveApproveList> {
                                             );
                                           } else {
                                             Navigator.pop(context);
-                                            RejCanResponse rejCanResponse =
+                                            RejCanPostResponse rejCanResponse =
                                                 await _apiInterface2
-                                                    .LeaveRejCanResponseData(
+                                                    .leaveRejCanResponseData(
                                                         LeaveApprovalRequest(
                                               action: "7",
                                               documentType:
@@ -173,18 +180,22 @@ class _LeaveApproveListState extends State<LeaveApproveList> {
                                             if (rejCanResponse.status) {
                                               setState(() {
                                                 updateTableResponse = _apiInterface1
-                                                    .LeaveApproveListResponseData(
-                                                        LeaveApproveListRequest(
-                                                  action: 1,
-                                                  senderId: EmpNo,
+                                                    .leaveApproveListResponseData(
+                                                        ApproveListRequest(
+                                                  action: 2,
+                                                  senderId: empNo,
                                                   status: statusList.indexOf(
                                                           selectedStatus) +
                                                       1,
                                                 ));
                                               });
                                             }
-
-                                            var alert = AlertDialog(
+                                            Fluttertoast.showToast(
+                                              msg: "${rejCanResponse.message}",
+                                              toastLength: Toast.LENGTH_LONG,
+                                              gravity: ToastGravity.CENTER,
+                                            );
+                                            /*var alert = AlertDialog(
                                                 content: Text(
                                                     rejCanResponse.message));
                                             showDialog(
@@ -192,16 +203,16 @@ class _LeaveApproveListState extends State<LeaveApproveList> {
                                               builder: (context) {
                                                 return alert;
                                               },
-                                            );
+                                            );*/
                                           }
                                         },
-                                        child: Text("Yes"),
+                                        child: Text("Submit"),
                                       ),
                                       FlatButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: Text("No"),
+                                        child: Text("Cancel"),
                                       ),
                                     ],
                                   );

@@ -32,7 +32,7 @@ class CarryFwdInfo extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.CarryFwdInfoResponseData(navigateRequest),
+              future: _apiInterface.carryFwdInfoResponseData(navigateRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<NavigateResponseCarryFwdInfo> snapshot) {
                 debugPrint(snapshot.hasData.toString());

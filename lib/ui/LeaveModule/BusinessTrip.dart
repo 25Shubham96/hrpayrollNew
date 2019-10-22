@@ -5,7 +5,7 @@ import 'package:hrpayroll/Network/ApiInterface.dart';
 import 'package:hrpayroll/request_model/BusinessTripRequest.dart';
 import 'package:hrpayroll/request_model/LeaveApprovalRequest.dart';
 import 'package:hrpayroll/response_model/BusinessTripResponse.dart';
-import 'package:hrpayroll/response_model/RejectionCancellationResponse.dart';
+import 'package:hrpayroll/response_model/RejectionCancellationPostResponse.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,7 +36,7 @@ class _BusinessTripState extends State<BusinessTrip> {
   static TextEditingController toDateController = TextEditingController();
   static TextEditingController leaveReasonController = TextEditingController();
   static TextEditingController cancelCommentController =
-      TextEditingController();
+  TextEditingController();
 
   Future<BusinessTripResponse> updateTableResponse;
   ApiInterface _apiInterface1 = ApiInterface();
@@ -67,7 +67,7 @@ class _BusinessTripState extends State<BusinessTrip> {
     );
     setState(() {
       updateTableResponse =
-          _apiInterface1.BusinessTripResponseData(businessTripRequest);
+          _apiInterface1.businessTripResponseData(businessTripRequest);
     });
 
     getSharedPrefs();
@@ -402,45 +402,50 @@ class _BusinessTripState extends State<BusinessTrip> {
             } else {
               Navigator.pop(context);
               BusinessTripResponse businessTripResponse =
-                  await _apiInterface2.BusinessTripResponseData(
-                      BusinessTripRequest(
-                action: 2,
-                employeeNo: selectedEmp,
-                employeeName: empNameController.text,
-                department: departmentController.text,
-                fromDate: fromDateController.text,
-                toDate: toDateController.text,
-                reason: leaveReasonController.text,
-                status: statusList.indexOf(selectedStatus),
-              ));
+              await _apiInterface2.businessTripResponseData(
+                  BusinessTripRequest(
+                    action: 2,
+                    employeeNo: selectedEmp,
+                    employeeName: empNameController.text,
+                    department: departmentController.text,
+                    fromDate: fromDateController.text,
+                    toDate: toDateController.text,
+                    reason: leaveReasonController.text,
+                    status: statusList.indexOf(selectedStatus),
+                  ));
 
               if (businessTripResponse.status) {
                 BusinessTripRequest businessTripRequest = BusinessTripRequest(
                   action: 1,
                 );
                 setState(() {
-                  updateTableResponse = _apiInterface1.BusinessTripResponseData(
+                  updateTableResponse = _apiInterface1.businessTripResponseData(
                       businessTripRequest);
                 });
               }
 
-              var alert =
-                  AlertDialog(content: Text(businessTripResponse.message));
+              Fluttertoast.showToast(
+                msg: "${businessTripResponse.message}",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.CENTER,
+              );
+              /*var alert =
+              AlertDialog(content: Text(businessTripResponse.message));
               showDialog(
                 context: context,
                 builder: (context) {
                   return alert;
                 },
-              );
+              );*/
             }
           },
-          child: Text("Yes"),
+          child: Text("Submit"),
         ),
         FlatButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text("No"),
+          child: Text("Cancel"),
         ),
       ],
     );
@@ -465,7 +470,7 @@ class _BusinessTripState extends State<BusinessTrip> {
           textFieldEnableStatus = false;
           Fluttertoast.showToast(
             msg:
-                "document is ${BusinessTripDataSource.selectedRowData.status} cannot be edited",
+            "document is ${BusinessTripDataSource.selectedRowData.status} cannot be edited",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
           );
@@ -495,77 +500,85 @@ class _BusinessTripState extends State<BusinessTrip> {
                     editClicked = false;
                   });
                   if (selectedStatus == statusList[4]) {
-                    RejCanResponse rejCanResponse =
-                        await _apiInterface3.LeaveRejCanResponseData(
-                            LeaveApprovalRequest(
-                      action: "7",
-                      documentType: "4",
-                      sequenceNo: "0",
-                      senderId: selectedEmp,
-                      status: "4",
-                      fromDate: fromDateController.text,
-                      cancellationComment: cancelCommentController.text,
-                    ));
+                    RejCanPostResponse rejCanResponse =
+                    await _apiInterface3.leaveRejCanResponseData(
+                        LeaveApprovalRequest(
+                          action: "7",
+                          documentType: "4",
+                          sequenceNo: "0",
+                          senderId: selectedEmp,
+                          status: "4",
+                          fromDate: fromDateController.text,
+                          cancellationComment: cancelCommentController.text,
+                        ));
 
                     if (rejCanResponse.status) {
                       BusinessTripRequest businessTripRequest =
-                          BusinessTripRequest(
+                      BusinessTripRequest(
                         action: 1,
                       );
                       setState(() {
                         updateTableResponse =
-                            _apiInterface1.BusinessTripResponseData(
+                            _apiInterface1.businessTripResponseData(
                                 businessTripRequest);
                       });
                     }
-
-                    var alert =
-                        AlertDialog(content: Text(rejCanResponse.message));
+                    Fluttertoast.showToast(
+                      msg: "${rejCanResponse.message}",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                    );
+                    /*var alert =
+                    AlertDialog(content: Text(rejCanResponse.message));
                     showDialog(
                       context: context,
                       builder: (context) {
                         return alert;
                       },
-                    );
+                    );*/
                   } else {
                     BusinessTripResponse businessTripResponse =
-                        await _apiInterface2.BusinessTripResponseData(
-                            BusinessTripRequest(
-                      action: 3,
-                      employeeNo: selectedEmp,
-                      employeeName: empNameController.text,
-                      department: departmentController.text,
-                      fromDate: fromDateController.text,
-                      toDate: toDateController.text,
-                      reason: leaveReasonController.text,
-                      status: statusList.indexOf(selectedStatus),
-                      entryNo: entryNo,
-                    ));
+                    await _apiInterface2.businessTripResponseData(
+                        BusinessTripRequest(
+                          action: 3,
+                          employeeNo: selectedEmp,
+                          employeeName: empNameController.text,
+                          department: departmentController.text,
+                          fromDate: fromDateController.text,
+                          toDate: toDateController.text,
+                          reason: leaveReasonController.text,
+                          status: statusList.indexOf(selectedStatus),
+                          entryNo: entryNo,
+                        ));
 
                     if (businessTripResponse.status) {
                       BusinessTripRequest businessTripRequest =
-                          BusinessTripRequest(
+                      BusinessTripRequest(
                         action: 1,
                       );
                       setState(() {
                         updateTableResponse =
-                            _apiInterface1.BusinessTripResponseData(
+                            _apiInterface1.businessTripResponseData(
                                 businessTripRequest);
                       });
                     }
-
-                    var alert = AlertDialog(
+                    Fluttertoast.showToast(
+                      msg: "${businessTripResponse.message}",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                    );
+                    /*var alert = AlertDialog(
                         content: Text(businessTripResponse.message));
                     showDialog(
                       context: context,
                       builder: (context) {
                         return alert;
                       },
-                    );
+                    );*/
                   }
                 }
               },
-              child: Text("Yes"),
+              child: Text("Update"),
             ),
             FlatButton(
               onPressed: () {
@@ -574,7 +587,7 @@ class _BusinessTripState extends State<BusinessTrip> {
                   editClicked = false;
                 });
               },
-              child: Text("No"),
+              child: Text("Cancel"),
             ),
           ],
         );
@@ -585,6 +598,9 @@ class _BusinessTripState extends State<BusinessTrip> {
               return alert;
             });
       } else {
+        setState(() {
+          editClicked = false;
+        });
         var alert = AlertDialog(
           content: Text(
               "document is ${BusinessTripDataSource.selectedRowData.status} cannot be edited"),
@@ -632,11 +648,11 @@ class _BusinessTripState extends State<BusinessTrip> {
               onPressed: () async {
                 Navigator.pop(context);
                 BusinessTripResponse businessTripResponse =
-                    await _apiInterface2.BusinessTripResponseData(
-                        BusinessTripRequest(
-                  action: 4,
-                  entryNo: entryNo,
-                ));
+                await _apiInterface2.businessTripResponseData(
+                    BusinessTripRequest(
+                      action: 4,
+                      entryNo: entryNo,
+                    ));
 
                 if (businessTripResponse.status) {
                   BusinessTripRequest businessTripRequest = BusinessTripRequest(
@@ -644,13 +660,13 @@ class _BusinessTripState extends State<BusinessTrip> {
                   );
                   setState(() {
                     updateTableResponse =
-                        _apiInterface1.BusinessTripResponseData(
+                        _apiInterface1.businessTripResponseData(
                             businessTripRequest);
                   });
                 }
 
                 var alert =
-                    AlertDialog(content: Text(businessTripResponse.message));
+                AlertDialog(content: Text(businessTripResponse.message));
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -726,28 +742,28 @@ class _DialogContentState extends State<DialogContent> {
       _BusinessTripState.empNameController.text = _BusinessTripState.editClicked
           ? BusinessTripDataSource.selectedRowData.employeeName
           : _BusinessTripState.empName[
-              _BusinessTripState.empNo.indexOf(_BusinessTripState.selectedEmp)];
+      _BusinessTripState.empNo.indexOf(_BusinessTripState.selectedEmp)];
       _BusinessTripState.departmentController.text = _BusinessTripState
-              .editClicked
+          .editClicked
           ? BusinessTripDataSource.selectedRowData.department
           : _BusinessTripState.empDepartment[
-              _BusinessTripState.empNo.indexOf(_BusinessTripState.selectedEmp)];
+      _BusinessTripState.empNo.indexOf(_BusinessTripState.selectedEmp)];
 
       _BusinessTripState.selectedStatus = _BusinessTripState.editClicked
           ? BusinessTripDataSource.selectedRowData.status
           : _businessTripState.statusList[0];
 
       _BusinessTripState.fromDateController.text =
-          _BusinessTripState.editClicked
-              ? BusinessTripDataSource.selectedRowData.fromDate
-              : "";
+      _BusinessTripState.editClicked
+          ? BusinessTripDataSource.selectedRowData.fromDate
+          : "";
       _BusinessTripState.toDateController.text = _BusinessTripState.editClicked
           ? BusinessTripDataSource.selectedRowData.toDate
           : "";
       _BusinessTripState.leaveReasonController.text =
-          _BusinessTripState.editClicked
-              ? BusinessTripDataSource.selectedRowData.reasonForTrip
-              : "";
+      _BusinessTripState.editClicked
+          ? BusinessTripDataSource.selectedRowData.reasonForTrip
+          : "";
     });
   }
 
@@ -810,7 +826,7 @@ class _DialogContentState extends State<DialogContent> {
                               Navigator.pop(context);
                               setState(() {
                                 _BusinessTripState.selectedStatus =
-                                    _businessTripState.statusList[4];
+                                _businessTripState.statusList[4];
                               });
                             } else {
                               Fluttertoast.showToast(
@@ -849,14 +865,14 @@ class _DialogContentState extends State<DialogContent> {
                   onPressed: () {
                     var alert = AlertDialog(
                       content:
-                          Text("Are you sure you want to send for approval ?"),
+                      Text("Are you sure you want to send for approval ?"),
                       actions: <Widget>[
                         FlatButton(
                           onPressed: () {
                             Navigator.pop(context);
                             setState(() {
                               _BusinessTripState.selectedStatus =
-                                  _businessTripState.statusList[1];
+                              _businessTripState.statusList[1];
                             });
                           },
                           child: Text("Yes"),
@@ -910,12 +926,12 @@ class _DialogContentState extends State<DialogContent> {
                     setState(() {
                       _BusinessTripState.selectedEmp = newValue;
                       _BusinessTripState.empNameController.text =
-                          _BusinessTripState.empName[_BusinessTripState.empNo
-                              .indexOf(_BusinessTripState.selectedEmp)];
+                      _BusinessTripState.empName[_BusinessTripState.empNo
+                          .indexOf(_BusinessTripState.selectedEmp)];
                       _BusinessTripState.departmentController.text =
-                          _BusinessTripState.empDepartment[_BusinessTripState
-                              .empNo
-                              .indexOf(_BusinessTripState.selectedEmp)];
+                      _BusinessTripState.empDepartment[_BusinessTripState
+                          .empNo
+                          .indexOf(_BusinessTripState.selectedEmp)];
                     });
                   },
                 ),

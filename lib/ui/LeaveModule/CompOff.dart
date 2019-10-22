@@ -5,7 +5,7 @@ import 'package:hrpayroll/Network/ApiInterface.dart';
 import 'package:hrpayroll/request_model/CompOffRequest.dart';
 import 'package:hrpayroll/request_model/LeaveApprovalRequest.dart';
 import 'package:hrpayroll/response_model/CompOffResponse.dart';
-import 'package:hrpayroll/response_model/RejectionCancellationResponse.dart';
+import 'package:hrpayroll/response_model/RejectionCancellationPostResponse.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,10 +44,10 @@ class _CompOffState extends State<CompOff> {
   static TextEditingController toDateController = TextEditingController();
   static TextEditingController totDaysController = TextEditingController();
   static TextEditingController taskToCompleteController =
-      TextEditingController();
+  TextEditingController();
   static TextEditingController leaveReasonController = TextEditingController();
   static TextEditingController cancelCommentController =
-      TextEditingController();
+  TextEditingController();
 
   static var selectedEmp = "", selectedStatus = "";
 
@@ -68,7 +68,7 @@ class _CompOffState extends State<CompOff> {
     CompOffRequest compOffRequest = CompOffRequest(action: 1);
 
     setState(() {
-      updateTableResponse = _apiInterface1.CompOffResponseData(compOffRequest);
+      updateTableResponse = _apiInterface1.compOffResponseData(compOffRequest);
     });
 
     getSharedPrefs();
@@ -457,7 +457,7 @@ class _CompOffState extends State<CompOff> {
             } else {
               Navigator.pop(context);
               CompOffResponse compOffResponse =
-                  await _apiInterface2.CompOffResponseData(CompOffRequest(
+              await _apiInterface2.compOffResponseData(CompOffRequest(
                 action: 2,
                 employeeNo: selectedEmp,
                 employeeName: empNameController.text,
@@ -476,26 +476,32 @@ class _CompOffState extends State<CompOff> {
 
                 setState(() {
                   updateTableResponse =
-                      _apiInterface1.CompOffResponseData(compOffRequest);
+                      _apiInterface1.compOffResponseData(compOffRequest);
                 });
               }
 
-              var alert = AlertDialog(content: Text(compOffResponse.message));
+              Fluttertoast.showToast(
+                msg: "${compOffResponse.message}",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.CENTER,
+              );
+
+              /*var alert = AlertDialog(content: Text(compOffResponse.message));
               showDialog(
                 context: context,
                 builder: (context) {
                   return alert;
                 },
-              );
+              );*/
             }
           },
-          child: Text("Yes"),
+          child: Text("Submit"),
         ),
         FlatButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text("No"),
+          child: Text("Cancel"),
         ),
       ],
     );
@@ -517,7 +523,7 @@ class _CompOffState extends State<CompOff> {
           textFieldEnableStatus = false;
           Fluttertoast.showToast(
             msg:
-                "document is ${CompOffDataSource.selectedRowData.status} cannot be edited",
+            "document is ${CompOffDataSource.selectedRowData.status} cannot be edited",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
           );
@@ -548,38 +554,43 @@ class _CompOffState extends State<CompOff> {
                     editClicked = false;
                   });
                   if (selectedStatus == statusList[4]) {
-                    RejCanResponse rejCanResponse =
-                        await _apiInterface3.LeaveRejCanResponseData(
-                            LeaveApprovalRequest(
-                      action: "7",
-                      documentType: "2",
-                      sequenceNo: "0",
-                      senderId: selectedEmp,
-                      status: "4",
-                      fromDate: fromDateController.text,
-                      cancellationComment: cancelCommentController.text,
-                    ));
+                    RejCanPostResponse rejCanResponse =
+                    await _apiInterface3.leaveRejCanResponseData(
+                        LeaveApprovalRequest(
+                          action: "7",
+                          documentType: "2",
+                          sequenceNo: "0",
+                          senderId: selectedEmp,
+                          status: "4",
+                          fromDate: fromDateController.text,
+                          cancellationComment: cancelCommentController.text,
+                        ));
 
                     if (rejCanResponse.status) {
                       CompOffRequest compOffRequest = CompOffRequest(action: 1);
 
                       setState(() {
                         updateTableResponse =
-                            _apiInterface1.CompOffResponseData(compOffRequest);
+                            _apiInterface1.compOffResponseData(compOffRequest);
                       });
                     }
 
-                    var alert =
-                        AlertDialog(content: Text(rejCanResponse.message));
+                    Fluttertoast.showToast(
+                      msg: "${rejCanResponse.message}",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                    );
+                    /*var alert =
+                    AlertDialog(content: Text(rejCanResponse.message));
                     showDialog(
                       context: context,
                       builder: (context) {
                         return alert;
                       },
-                    );
+                    );*/
                   } else {
                     CompOffResponse compOffResponse =
-                        await _apiInterface2.CompOffResponseData(CompOffRequest(
+                    await _apiInterface2.compOffResponseData(CompOffRequest(
                       action: 3,
                       entryNo: entryNo,
                       employeeNo: selectedEmp,
@@ -599,22 +610,27 @@ class _CompOffState extends State<CompOff> {
 
                       setState(() {
                         updateTableResponse =
-                            _apiInterface1.CompOffResponseData(compOffRequest);
+                            _apiInterface1.compOffResponseData(compOffRequest);
                       });
                     }
 
-                    var alert =
-                        AlertDialog(content: Text(compOffResponse.message));
+                    Fluttertoast.showToast(
+                      msg: "${compOffResponse.message}",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                    );
+                    /*var alert =
+                    AlertDialog(content: Text(compOffResponse.message));
                     showDialog(
                       context: context,
                       builder: (context) {
                         return alert;
                       },
-                    );
+                    );*/
                   }
                 }
               },
-              child: Text("Yes"),
+              child: Text("Update"),
             ),
             FlatButton(
               onPressed: () {
@@ -623,7 +639,7 @@ class _CompOffState extends State<CompOff> {
                   editClicked = false;
                 });
               },
-              child: Text("No"),
+              child: Text("Cancel"),
             ),
           ],
         );
@@ -633,6 +649,9 @@ class _CompOffState extends State<CompOff> {
               return alert;
             });
       } else {
+        setState(() {
+          editClicked = false;
+        });
         var alert = AlertDialog(
           content: Text(
               "document is ${CompOffDataSource.selectedRowData.status} cannot be edited"),
@@ -680,7 +699,7 @@ class _CompOffState extends State<CompOff> {
               onPressed: () async {
                 Navigator.pop(context);
                 CompOffResponse compOffResponse =
-                    await _apiInterface2.CompOffResponseData(CompOffRequest(
+                await _apiInterface2.compOffResponseData(CompOffRequest(
                   action: 4,
                   entryNo: entryNo,
                   noOfDays: 0,
@@ -691,7 +710,7 @@ class _CompOffState extends State<CompOff> {
 
                   setState(() {
                     updateTableResponse =
-                        _apiInterface1.CompOffResponseData(compOffRequest);
+                        _apiInterface1.compOffResponseData(compOffRequest);
                   });
                 }
 
@@ -771,15 +790,15 @@ class _DialogContentState extends State<DialogContent> {
       _CompOffState.empNameController.text = _CompOffState.editClicked
           ? CompOffDataSource.selectedRowData.employeeName
           : _CompOffState.empNameList[
-              _CompOffState.empNoList.indexOf(_CompOffState.selectedEmp)];
+      _CompOffState.empNoList.indexOf(_CompOffState.selectedEmp)];
       _CompOffState.designationController.text = _CompOffState.editClicked
           ? CompOffDataSource.selectedRowData.designation
           : _CompOffState.designationList[
-              _CompOffState.empNoList.indexOf(_CompOffState.selectedEmp)];
+      _CompOffState.empNoList.indexOf(_CompOffState.selectedEmp)];
       _CompOffState.departmentController.text = _CompOffState.editClicked
           ? CompOffDataSource.selectedRowData.department
           : _CompOffState.departmentList[
-              _CompOffState.empNoList.indexOf(_CompOffState.selectedEmp)];
+      _CompOffState.empNoList.indexOf(_CompOffState.selectedEmp)];
 
       _CompOffState.selectedStatus = _CompOffState.editClicked
           ? CompOffDataSource.selectedRowData.status
@@ -862,7 +881,7 @@ class _DialogContentState extends State<DialogContent> {
                               Navigator.pop(context);
                               setState(() {
                                 _CompOffState.selectedStatus =
-                                    _compOffState.statusList[4];
+                                _compOffState.statusList[4];
                               });
                             } else {
                               Fluttertoast.showToast(
@@ -901,14 +920,14 @@ class _DialogContentState extends State<DialogContent> {
                   onPressed: () {
                     var alert = AlertDialog(
                       content:
-                          Text("Are you sure you want to send for approval ?"),
+                      Text("Are you sure you want to send for approval ?"),
                       actions: <Widget>[
                         FlatButton(
                           onPressed: () {
                             Navigator.pop(context);
                             setState(() {
                               _CompOffState.selectedStatus =
-                                  _compOffState.statusList[1];
+                              _compOffState.statusList[1];
                             });
                           },
                           child: Text("Yes"),
@@ -962,14 +981,14 @@ class _DialogContentState extends State<DialogContent> {
                     setState(() {
                       _CompOffState.selectedEmp = newValue;
                       _CompOffState.empNameController.text =
-                          _CompOffState.empNameList[_CompOffState.empNoList
-                              .indexOf(_CompOffState.selectedEmp)];
+                      _CompOffState.empNameList[_CompOffState.empNoList
+                          .indexOf(_CompOffState.selectedEmp)];
                       _CompOffState.designationController.text =
-                          _CompOffState.designationList[_CompOffState.empNoList
-                              .indexOf(_CompOffState.selectedEmp)];
+                      _CompOffState.designationList[_CompOffState.empNoList
+                          .indexOf(_CompOffState.selectedEmp)];
                       _CompOffState.departmentController.text =
-                          _CompOffState.departmentList[_CompOffState.empNoList
-                              .indexOf(_CompOffState.selectedEmp)];
+                      _CompOffState.departmentList[_CompOffState.empNoList
+                          .indexOf(_CompOffState.selectedEmp)];
                     });
                   },
                 ),

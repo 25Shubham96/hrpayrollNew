@@ -5,7 +5,7 @@ import 'package:hrpayroll/Network/ApiInterface.dart';
 import 'package:hrpayroll/request_model/LeaveApprovalRequest.dart';
 import 'package:hrpayroll/request_model/OutOfOfficeRequest.dart';
 import 'package:hrpayroll/response_model/OutOfOFficeResponse.dart';
-import 'package:hrpayroll/response_model/RejectionCancellationResponse.dart';
+import 'package:hrpayroll/response_model/RejectionCancellationPostResponse.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -70,7 +70,7 @@ class _OutOfOfficeState extends State<OutOfOffice> {
     );
     setState(() {
       updateTableResponse =
-          _apiInterface1.OutOfOfficeResponseData(outOfOfficeRequest);
+          _apiInterface1.outOfOfficeResponseData(outOfOfficeRequest);
     });
 
     getSharedPrefs();
@@ -442,7 +442,7 @@ class _OutOfOfficeState extends State<OutOfOffice> {
             } else {
               Navigator.pop(context);
               OutOfOfficeResponse outOfOfficeResponse =
-              await _apiInterface2.OutOfOfficeResponseData(
+              await _apiInterface2.outOfOfficeResponseData(
                   OutOfOfficeRequest(
                     action: 2,
                     employeeNo: selectedEmp,
@@ -461,28 +461,33 @@ class _OutOfOfficeState extends State<OutOfOffice> {
                   action: 1,
                 );
                 setState(() {
-                  updateTableResponse = _apiInterface1.OutOfOfficeResponseData(
+                  updateTableResponse = _apiInterface1.outOfOfficeResponseData(
                       outOfOfficeRequest);
                 });
               }
 
-              var alert =
+              Fluttertoast.showToast(
+                msg: "${outOfOfficeResponse.message}",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.CENTER,
+              );
+              /*var alert =
               AlertDialog(content: Text(outOfOfficeResponse.message));
               showDialog(
                 context: context,
                 builder: (context) {
                   return alert;
                 },
-              );
+              );*/
             }
           },
-          child: Text("Yes"),
+          child: Text("Submit"),
         ),
         FlatButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text("No"),
+          child: Text("Cancel"),
         ),
       ],
     );
@@ -538,8 +543,8 @@ class _OutOfOfficeState extends State<OutOfOffice> {
                     editClicked = false;
                   });
                   if (selectedStatus == statusList[4]) {
-                    RejCanResponse rejCanResponse =
-                    await _apiInterface3.LeaveRejCanResponseData(
+                    RejCanPostResponse rejCanResponse =
+                    await _apiInterface3.leaveRejCanResponseData(
                         LeaveApprovalRequest(
                           action: "7",
                           documentType: "3",
@@ -557,22 +562,26 @@ class _OutOfOfficeState extends State<OutOfOffice> {
                       );
                       setState(() {
                         updateTableResponse =
-                            _apiInterface1.OutOfOfficeResponseData(
+                            _apiInterface1.outOfOfficeResponseData(
                                 outOfOfficeRequest);
                       });
                     }
-
-                    var alert =
+                    Fluttertoast.showToast(
+                      msg: "${rejCanResponse.message}",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                    );
+                    /*var alert =
                     AlertDialog(content: Text(rejCanResponse.message));
                     showDialog(
                       context: context,
                       builder: (context) {
                         return alert;
                       },
-                    );
+                    );*/
                   } else {
                     OutOfOfficeResponse outOfOfficeResponse =
-                    await _apiInterface2.OutOfOfficeResponseData(
+                    await _apiInterface2.outOfOfficeResponseData(
                         OutOfOfficeRequest(
                           action: 3,
                           employeeNo: selectedEmp,
@@ -594,23 +603,27 @@ class _OutOfOfficeState extends State<OutOfOffice> {
                       );
                       setState(() {
                         updateTableResponse =
-                            _apiInterface1.OutOfOfficeResponseData(
+                            _apiInterface1.outOfOfficeResponseData(
                                 outOfOfficeRequest);
                       });
                     }
-
-                    var alert =
+                    Fluttertoast.showToast(
+                      msg: "${outOfOfficeResponse.message}",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.CENTER,
+                    );
+                    /*var alert =
                     AlertDialog(content: Text(outOfOfficeResponse.message));
                     showDialog(
                       context: context,
                       builder: (context) {
                         return alert;
                       },
-                    );
+                    );*/
                   }
                 }
               },
-              child: Text("Yes"),
+              child: Text("Update"),
             ),
             FlatButton(
               onPressed: () {
@@ -619,7 +632,7 @@ class _OutOfOfficeState extends State<OutOfOffice> {
                   editClicked = false;
                 });
               },
-              child: Text("No"),
+              child: Text("Cancel"),
             ),
           ],
         );
@@ -680,7 +693,7 @@ class _OutOfOfficeState extends State<OutOfOffice> {
               onPressed: () async {
                 Navigator.pop(context);
                 OutOfOfficeResponse outOfOfficeResponse =
-                await _apiInterface2.OutOfOfficeResponseData(
+                await _apiInterface2.outOfOfficeResponseData(
                     OutOfOfficeRequest(
                       action: 4,
                       entryNo: entryNo,
@@ -692,7 +705,7 @@ class _OutOfOfficeState extends State<OutOfOffice> {
                   );
                   setState(() {
                     updateTableResponse =
-                        _apiInterface1.OutOfOfficeResponseData(
+                        _apiInterface1.outOfOfficeResponseData(
                             outOfOfficeRequest);
                   });
                 }

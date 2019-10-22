@@ -1,23 +1,23 @@
 import 'dart:convert';
 
-RejCanResponse RejCanResFromJson(String str) =>
-    RejCanResponse.fromJson(json.decode(str));
+RejCanPostResponse RejCanPostResFromJson(String str) =>
+    RejCanPostResponse.fromJson(json.decode(str));
 
-String RejCanResToJson(RejCanResponse data) => json.encode(data.toJson());
+String RejCanPostResToJson(RejCanPostResponse data) => json.encode(data.toJson());
 
-class RejCanResponse {
+class RejCanPostResponse {
   bool status;
   String message;
   List<dynamic> data;
 
-  RejCanResponse({
+  RejCanPostResponse({
     this.status,
     this.message,
     this.data,
   });
 
-  factory RejCanResponse.fromJson(Map<String, dynamic> json) =>
-      new RejCanResponse(
+  factory RejCanPostResponse.fromJson(Map<String, dynamic> json) =>
+      new RejCanPostResponse(
         status: json["status"],
         message: json["message"],
         data: new List<dynamic>.from(json["data"].map((x) => x)),

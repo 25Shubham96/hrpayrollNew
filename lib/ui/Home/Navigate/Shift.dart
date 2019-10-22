@@ -31,7 +31,7 @@ class Shift extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.ShiftResponseData(navigateRequest),
+              future: _apiInterface.shiftResponseData(navigateRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<NavigateResponseShift> snapshot) {
                 debugPrint(snapshot.hasData.toString());

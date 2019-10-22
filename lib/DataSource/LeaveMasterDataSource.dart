@@ -22,9 +22,9 @@ class LeaveMasterDataSource extends DataTableSource {
         DataCell(Text(leaveMasterModel.creditingType)),
         DataCell(Text(leaveMasterModel.minimumAllowed.toString())),
         DataCell(Text(leaveMasterModel.maximumAllowed.toString())),
-        DataCell(Checkbox(
-            value: leaveMasterModel.carryForward == 1 ? true : false,
-            onChanged: null)),
+          DataCell(Checkbox(
+              value: leaveMasterModel.carryForward == 1 ? true : false,
+              onChanged: null)),
         DataCell(Text(leaveMasterModel.applicableDate)),
         DataCell(Text(leaveMasterModel.applicableForGrade)),
       ],

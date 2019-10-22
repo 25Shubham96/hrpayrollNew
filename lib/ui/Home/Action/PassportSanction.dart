@@ -31,7 +31,7 @@ class PassportSanction extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             FutureBuilder(
-              future: _apiInterface.PassportSanctionResponseData(actionRequest),
+              future: _apiInterface.passportSanctionResponseData(actionRequest),
               builder: (BuildContext context,
                   AsyncSnapshot<ActionResponse> snapshot) {
                 debugPrint(snapshot.hasData.toString());
