@@ -46,7 +46,7 @@ class _ClosedTrainingListState extends State<ClosedTrainingList> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     header: Text(""),
                     columns: [
                       DataColumn(

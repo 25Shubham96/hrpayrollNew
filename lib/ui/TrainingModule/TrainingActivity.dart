@@ -209,7 +209,7 @@ class _TrainingActivityState extends State<TrainingActivity> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onSelectAll: _trainingActivityDataSource.selectAll,
                     header: Text(""),
                     columns: [
@@ -755,13 +755,13 @@ class _TrainingActivityState extends State<TrainingActivity> {
         });
         var alert = AlertDialog(
           content: Text(
-              "document is ${TrainingActivityDataSource.selectedRowData.status} cannot be edited"),
+              "document is ${TrainingActivityDataSource.selectedRowData.status} status and cannot be edited"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -778,6 +778,14 @@ class _TrainingActivityState extends State<TrainingActivity> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -875,13 +883,13 @@ class _TrainingActivityState extends State<TrainingActivity> {
       } else {
         var alert = AlertDialog(
           content: Text(
-              "document is ${TrainingActivityDataSource.selectedRowData.status} cannot be deleted"),
+              "document is ${TrainingActivityDataSource.selectedRowData.status} status and cannot be deleted"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -895,6 +903,14 @@ class _TrainingActivityState extends State<TrainingActivity> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -1702,6 +1718,14 @@ class _DialogContentState extends State<DialogContent> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,

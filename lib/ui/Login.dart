@@ -22,6 +22,13 @@ class _LoginState extends State<Login> {
   var _userController = new TextEditingController(text: "emp-0001");
   var _passwordController = new TextEditingController(text: "billgurung");
 
+  String title = "";
+
+  var _emailController = new TextEditingController();
+  var _authCodeController = new TextEditingController();
+  var _newPasswordController = new TextEditingController();
+  var _confirmPasswordController = new TextEditingController();
+
   LoginResponse _myData;
 
   ApiInterface _apiInterface = ApiInterface();
@@ -63,7 +70,7 @@ class _LoginState extends State<Login> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: new Text("ok")),
+              child: new Text("OK")),
         ],
       );
       showDialog(
@@ -145,7 +152,7 @@ class _LoginState extends State<Login> {
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: new Text("ok")),
+                                    child: new Text("OK")),
                               ],
                             );
                             showDialog(
@@ -212,7 +219,82 @@ class _LoginState extends State<Login> {
                     margin: new EdgeInsets.all(10),
                     alignment: Alignment.topRight,
                     child: new FlatButton(
-                      onPressed: () => debugPrint("Forgot Password"),
+                      onPressed: () {
+                        AlertDialog dialog = AlertDialog(
+                          title: Container(
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text("My Custom Title"),
+                                ),
+                                FlatButton(
+                                  child: Icon(Icons.close, color: Colors.red,),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )
+                              ],
+                            ),
+                          ),
+                          content: Container(
+                            child: Column(
+                              children: <Widget>[
+                                Visibility(
+                                  child: TextField(
+                                    controller: _emailController,
+                                    decoration: InputDecoration(
+                                      labelText: "Enter Your Email Id",
+                                      icon: Icon(Icons.mail),
+                                    ),
+                                  ),
+                                  visible: true,
+                                ),
+                                Visibility(
+                                  child: TextField(
+                                    controller: _authCodeController,
+                                    decoration: InputDecoration(
+                                      labelText: "Enter Auth Code",
+                                      hintText: "6 digit code sent to your email",
+                                      icon: Icon(Icons.mail),
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                  visible: true,
+                                ),
+                                Visibility(
+                                  child: TextField(
+                                    controller: _newPasswordController,
+                                    decoration: InputDecoration(
+                                      labelText: "Enter New Password",
+                                      icon: Icon(Icons.mail),
+                                    ),
+                                  ),
+                                  visible: true,
+                                ),
+                                Visibility(
+                                  child: TextField(
+                                    controller: _confirmPasswordController,
+                                    decoration: InputDecoration(
+                                      labelText: "Confirm Password",
+                                      icon: Icon(Icons.mail),
+                                    ),
+                                    obscureText: true,
+                                  ),
+                                  visible: true,
+                                ),
+                              ],
+                            ),
+                          ),
+
+                        );
+
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext) {
+                            return dialog;
+                          },
+                        );
+                      },
                       child: new Text(
                         "Forgot Password",
                         style: new TextStyle(

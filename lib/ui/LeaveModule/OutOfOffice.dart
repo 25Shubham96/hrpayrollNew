@@ -17,7 +17,7 @@ class OutOfOffice extends StatefulWidget {
 class _OutOfOfficeState extends State<OutOfOffice> {
   final List<String> statusList = [
     "Open",
-    "Pending for Approval",
+    "Send For Approval",
     "Approved",
     "Rejected",
     "Cancelled"
@@ -183,7 +183,7 @@ class _OutOfOfficeState extends State<OutOfOffice> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onSelectAll: _outOfOfficeDataSource.selectAll,
                     header: Text(""),
                     columns: [
@@ -512,7 +512,7 @@ class _OutOfOfficeState extends State<OutOfOffice> {
           textFieldEnableStatus = false;
           Fluttertoast.showToast(
             msg:
-            "document is ${OutOfOfficeDataSource.selectedRowData.status} cannot be edited",
+            "document is ${OutOfOfficeDataSource.selectedRowData.status} status and cannot be edited",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
           );
@@ -648,13 +648,13 @@ class _OutOfOfficeState extends State<OutOfOffice> {
         });
         var alert = AlertDialog(
           content: Text(
-              "document is ${OutOfOfficeDataSource.selectedRowData.status} cannot be edited"),
+              "document is ${OutOfOfficeDataSource.selectedRowData.status} status and cannot be edited"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -671,6 +671,14 @@ class _OutOfOfficeState extends State<OutOfOffice> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -711,7 +719,17 @@ class _OutOfOfficeState extends State<OutOfOffice> {
                 }
 
                 var alert =
-                AlertDialog(content: Text(outOfOfficeResponse.message));
+                AlertDialog(
+                  content: Text(outOfOfficeResponse.message),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("OK"),
+                    ),
+                  ],
+                );
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -738,13 +756,13 @@ class _OutOfOfficeState extends State<OutOfOffice> {
       } else {
         var alert = AlertDialog(
           content: Text(
-              "document is ${OutOfOfficeDataSource.selectedRowData.status} cannot be deleted"),
+              "document is ${OutOfOfficeDataSource.selectedRowData.status} status and cannot be deleted"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -758,6 +776,14 @@ class _OutOfOfficeState extends State<OutOfOffice> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,

@@ -200,7 +200,7 @@ class _AssetRequestState extends State<AssetRequest> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onSelectAll: _assetReqDataSource.selectAll,
                     header: Text(""),
                     columns: [
@@ -520,7 +520,7 @@ class _AssetRequestState extends State<AssetRequest> {
           textFieldEnableStatus = false;
           Fluttertoast.showToast(
             msg:
-            "document is ${EmpAssetReqDataSource.selectedRowData.status} cannot be edited",
+            "document is ${EmpAssetReqDataSource.selectedRowData.status} status and cannot be edited",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
           );
@@ -671,13 +671,13 @@ class _AssetRequestState extends State<AssetRequest> {
         });
         var alert = AlertDialog(
           content: Text(
-              "document is ${EmpAssetReqDataSource.selectedRowData.status} cannot be edited"),
+              "document is ${EmpAssetReqDataSource.selectedRowData.status} status and cannot be edited"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -694,6 +694,14 @@ class _AssetRequestState extends State<AssetRequest> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -786,13 +794,13 @@ class _AssetRequestState extends State<AssetRequest> {
       } else {
         var alert = AlertDialog(
           content: Text(
-              "document is ${EmpAssetReqDataSource.selectedRowData.status} cannot be deleted"),
+              "document is ${EmpAssetReqDataSource.selectedRowData.status} status and cannot be deleted"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -806,6 +814,14 @@ class _AssetRequestState extends State<AssetRequest> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -1480,6 +1496,14 @@ class _DialogContentState extends State<DialogContent> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,

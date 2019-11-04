@@ -225,7 +225,7 @@ class _AssetIssueState extends State<AssetIssue> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (filterData.length < 10 && filterData.length > 0) ? filterData.length : _rowsPerPage,
                     onSelectAll: _assetIssueDataSource.selectAll,
                     header: Text(""),
                     columns: [
@@ -666,6 +666,14 @@ class _AssetIssueState extends State<AssetIssue> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -758,6 +766,14 @@ class _AssetIssueState extends State<AssetIssue> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,

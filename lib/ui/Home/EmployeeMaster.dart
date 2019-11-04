@@ -159,7 +159,7 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onRowsPerPageChanged: (int value) {
                       setState(() {
                         _rowsPerPage = value;
@@ -720,6 +720,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -745,6 +753,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -770,6 +786,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -795,6 +819,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -820,6 +852,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -845,6 +885,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -870,6 +918,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -895,6 +951,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -938,6 +1002,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -963,6 +1035,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -988,6 +1068,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -1013,6 +1101,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -1038,6 +1134,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -1063,6 +1167,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -1088,6 +1200,14 @@ class _EmployeeMasterState extends State<EmployeeMaster> {
                 } else {
                   var alert = AlertDialog(
                     content: Text("please select a row first!"),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,

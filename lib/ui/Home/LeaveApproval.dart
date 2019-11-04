@@ -141,13 +141,12 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                   _leaveApprovalDataSource =
                       LeaveApprovalDataSource(_myResponseData.data);
 
-                  _rowsPerPage = _myResponseData.data.length + 1;
                   return PaginatedDataTable(
                     columnSpacing: 15,
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onSelectAll: _leaveApprovalDataSource.selectAll,
                     header: new Text(""),
                     columns: [
@@ -559,6 +558,14 @@ class _LeaveApprovalState extends State<LeaveApproval> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -590,6 +597,14 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                   rejectionCommentControler.text == " ") {
                 var alert = AlertDialog(
                   content: Text("Please enter rejection comment..."),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("OK"),
+                    ),
+                  ],
                 );
                 showDialog(
                   context: context,
@@ -629,6 +644,14 @@ class _LeaveApprovalState extends State<LeaveApproval> {
                 if (leaveRejCanResp.status) {
                   var alert = AlertDialog(
                     content: Text(leaveRejCanResp.message),
+                    actions: <Widget>[
+                      FlatButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("OK"),
+                      ),
+                    ],
                   );
                   showDialog(
                     context: context,
@@ -684,6 +707,14 @@ class _LeaveApprovalState extends State<LeaveApproval> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,

@@ -22,7 +22,7 @@ class _PassportRetentionState extends State<PassportRetention> {
 
   final List<String> statusList = [
     "Created",
-    "Send for Approval",
+    "Send For Approval",
     "Approved",
     "Rejected",
     "Cancelled"
@@ -212,7 +212,7 @@ class _PassportRetentionState extends State<PassportRetention> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onSelectAll: _passportRetentionDataSource.selectAll,
                     header: Text(""),
                     columns: [
@@ -641,7 +641,7 @@ class _PassportRetentionState extends State<PassportRetention> {
           textFieldEnableStatus = false;
           Fluttertoast.showToast(
             msg:
-            "document is ${PassportRetentionDataSource.selectedRowData.status} cannot be edited",
+            "document is ${PassportRetentionDataSource.selectedRowData.status} status and cannot be edited",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
           );
@@ -862,13 +862,13 @@ class _PassportRetentionState extends State<PassportRetention> {
         });
         var alert = AlertDialog(
           content: Text(
-              "document is ${PassportRetentionDataSource.selectedRowData.status} cannot be edited"),
+              "document is ${PassportRetentionDataSource.selectedRowData.status} status and cannot be edited"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -885,6 +885,14 @@ class _PassportRetentionState extends State<PassportRetention> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -954,13 +962,13 @@ class _PassportRetentionState extends State<PassportRetention> {
       } else {
         var alert = AlertDialog(
           content: Text(
-              "document is ${PassportRetentionDataSource.selectedRowData.status} cannot be deleted"),
+              "document is ${PassportRetentionDataSource.selectedRowData.status} status and cannot be deleted"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -974,6 +982,14 @@ class _PassportRetentionState extends State<PassportRetention> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,

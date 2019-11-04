@@ -27,7 +27,7 @@ class _CompOffState extends State<CompOff> {
 
   final List<String> statusList = [
     "Open",
-    "Pending for Approval",
+    "Send For Approval",
     "Approved",
     "Rejected",
     "Cancelled"
@@ -181,7 +181,7 @@ class _CompOffState extends State<CompOff> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onSelectAll: _compOffDataSource.selectAll,
                     header: Text(""),
                     columns: [
@@ -523,7 +523,7 @@ class _CompOffState extends State<CompOff> {
           textFieldEnableStatus = false;
           Fluttertoast.showToast(
             msg:
-            "document is ${CompOffDataSource.selectedRowData.status} cannot be edited",
+            "document is ${CompOffDataSource.selectedRowData.status} status and cannot be edited",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
           );
@@ -654,13 +654,13 @@ class _CompOffState extends State<CompOff> {
         });
         var alert = AlertDialog(
           content: Text(
-              "document is ${CompOffDataSource.selectedRowData.status} cannot be edited"),
+              "document is ${CompOffDataSource.selectedRowData.status} status and cannot be edited"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -677,6 +677,14 @@ class _CompOffState extends State<CompOff> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -714,7 +722,17 @@ class _CompOffState extends State<CompOff> {
                   });
                 }
 
-                var alert = AlertDialog(content: Text(compOffResponse.message));
+                var alert = AlertDialog(
+                  content: Text(compOffResponse.message),
+                  actions: <Widget>[
+                    FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text("OK"),
+                    ),
+                  ],
+                );
                 showDialog(
                   context: context,
                   builder: (context) {
@@ -741,13 +759,13 @@ class _CompOffState extends State<CompOff> {
       } else {
         var alert = AlertDialog(
           content: Text(
-              "document is ${CompOffDataSource.selectedRowData.status} cannot be deleted"),
+              "document is ${CompOffDataSource.selectedRowData.status} status and cannot be deleted"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -761,6 +779,14 @@ class _CompOffState extends State<CompOff> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,

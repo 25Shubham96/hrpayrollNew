@@ -196,7 +196,7 @@ class _TrainingRequestState extends State<TrainingRequest> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onSelectAll: _trainingRequestDataSource.selectAll,
                     header: Text(""),
                     columns: [
@@ -522,7 +522,7 @@ class _TrainingRequestState extends State<TrainingRequest> {
           textFieldEnableStatus = false;
           Fluttertoast.showToast(
             msg:
-            "document is ${TrainingRequestDataSource.selectedRowData.status} cannot be edited",
+            "document is ${TrainingRequestDataSource.selectedRowData.status} status and cannot be edited",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
           );
@@ -710,13 +710,13 @@ class _TrainingRequestState extends State<TrainingRequest> {
         });
         var alert = AlertDialog(
           content: Text(
-              "document is ${TrainingRequestDataSource.selectedRowData.status} cannot be edited"),
+              "document is ${TrainingRequestDataSource.selectedRowData.status} status and cannot be edited"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -733,6 +733,14 @@ class _TrainingRequestState extends State<TrainingRequest> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -825,7 +833,7 @@ class _TrainingRequestState extends State<TrainingRequest> {
       } else {
         var alert = AlertDialog(
           content: Text(
-              "document is ${TrainingRequestDataSource.selectedRowData.status} cannot be deleted"),
+              "document is ${TrainingRequestDataSource.selectedRowData.status} status and cannot be deleted"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
@@ -845,6 +853,14 @@ class _TrainingRequestState extends State<TrainingRequest> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -1237,7 +1253,7 @@ class _DialogContentState extends State<DialogContent> {
           ),
 
           ListTile(
-            title: Text("Subform"),
+            title: Text("Attendees"),
             trailing: subformClick ? iconWidgetUp : iconWidgetDown,
             onTap: () {
               setState(() {
@@ -1265,7 +1281,7 @@ class _DialogContentState extends State<DialogContent> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   Icon(Icons.menu, color: Colors.white,),
-                                  Text("New", style: TextStyle(color: Colors.white, fontSize: 15),),
+                                  Text("Add", style: TextStyle(color: Colors.white, fontSize: 15),),
                                 ],
                               ),
                             ),
@@ -1420,6 +1436,14 @@ class _DialogContentState extends State<DialogContent> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,

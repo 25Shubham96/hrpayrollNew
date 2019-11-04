@@ -18,7 +18,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
   final List<String> leaveDuration = ["Half Day", "Full Day"];
   final List<String> statusList = [
     "Open",
-    "Pending for Approval",
+    "Send For Approval",
     "Approved",
     "Rejected",
     "Cancelled"
@@ -195,7 +195,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onSelectAll: _leaveApplicationDataSource.selectAll,
                     header: Text(""),
                     columns: [
@@ -643,7 +643,7 @@ class _LeaveApplicationState extends State<LeaveApplication> {
           textFieldEnableStatus = false;
           Fluttertoast.showToast(
             msg:
-            "document is ${LeaveApplicationDataSource.selectedRowData.status} cannot be edited",
+            "document is ${LeaveApplicationDataSource.selectedRowData.status} status and cannot be edited",
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
           );
@@ -790,13 +790,13 @@ class _LeaveApplicationState extends State<LeaveApplication> {
         });
         var alert = AlertDialog(
           content: Text(
-              "document is ${LeaveApplicationDataSource.selectedRowData.status} cannot be edited"),
+              "document is ${LeaveApplicationDataSource.selectedRowData.status} status and cannot be edited"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -813,6 +813,14 @@ class _LeaveApplicationState extends State<LeaveApplication> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,
@@ -887,13 +895,13 @@ class _LeaveApplicationState extends State<LeaveApplication> {
       } else {
         var alert = AlertDialog(
           content: Text(
-              "document is ${LeaveApplicationDataSource.selectedRowData.status} cannot be deleted"),
+              "document is ${LeaveApplicationDataSource.selectedRowData.status} status and cannot be deleted"),
           actions: <Widget>[
             FlatButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text("Ok"),
+              child: Text("OK"),
             ),
           ],
         );
@@ -907,6 +915,14 @@ class _LeaveApplicationState extends State<LeaveApplication> {
     } else {
       var alert = AlertDialog(
         content: Text("please select a row first!"),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text("OK"),
+          ),
+        ],
       );
       showDialog(
         context: context,

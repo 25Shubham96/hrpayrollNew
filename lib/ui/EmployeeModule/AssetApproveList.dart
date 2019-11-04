@@ -219,6 +219,14 @@ class _AssetApproveListState extends State<AssetApproveList> {
                                 } else {
                                   var alert = AlertDialog(
                                     content: Text("please select a row first!"),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("OK"),
+                                      ),
+                                    ],
                                   );
                                   showDialog(
                                     context: context,
@@ -267,7 +275,7 @@ class _AssetApproveListState extends State<AssetApproveList> {
                     horizontalMargin: 15,
                     headingRowHeight: 35,
                     dataRowHeight: 30,
-                    rowsPerPage: _rowsPerPage,
+                    rowsPerPage: (_myResponseData.data.length < 10 && _myResponseData.data.length > 0) ? _myResponseData.data.length : _rowsPerPage,
                     onSelectAll: _assetApproveListDataSource.selectAll,
                     header: Text(""),
                     columns: [
